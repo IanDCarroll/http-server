@@ -9,16 +9,6 @@ import java.io.IOException;
 
 public class ServSocketTest {
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testValidateArgNumberThrowsExceptionIfLessThanOneArg() {
-        ServSocket.validateArgNumber(0);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testValidateArgNumberThrowsExceptionIfMoreThanOneArg() {
-        ServSocket.validateArgNumber(2);
-    }
-
     // Integration tests that require manual work:
     // Run the following command in the terminal, then un-ignore tests here.
     // $ java -jar ./target/http-server-1.0-SNAPSHOT.jar

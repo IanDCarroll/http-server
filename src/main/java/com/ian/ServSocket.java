@@ -5,9 +5,13 @@ import java.io.*;
 
 public class ServSocket {
     public static void main(String[] args) {
-        validateArgNumber(1);
-        //int port = Integer.parseInt(args[0]);
-        serve(5000);
+        int port = 5000;
+        try { port = Integer.parseInt(args[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.format("No param for port number; using default port %d", port);
+        } finally {
+            serve(port);
+        }
     }
 
     public static void serve(int port) {
@@ -27,12 +31,6 @@ public class ServSocket {
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
             System.out.println(e.getMessage());
-        }
-    }
-
-    public static void validateArgNumber(int argNumber) {
-        if(argNumber != 1) {
-            throw new IllegalArgumentException("Server needs exactly one arg: the Port Number.");
         }
     }
 }

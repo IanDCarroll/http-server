@@ -25,20 +25,15 @@ public class ServSocket {
                 garconDeCafe.close();
             }
         } catch (IOException e) {
-            printIOException(port, e);
+            System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
+            System.out.println(e.getMessage());
         }
     }
 
-    private static void validateArgNumber(int argNumber) {
+    public static void validateArgNumber(int argNumber) {
         if(argNumber != 1) {
-            System.err.println ("Server needs exactly one arg: the Port Number.");
-            System.exit(1);
+            throw new IllegalArgumentException("Server needs exactly one arg: the Port Number.");
         }
-    }
-
-    private static void printIOException(int port, IOException e) {
-        System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
-        System.out.println(e.getMessage());
     }
 }
 

@@ -6,10 +6,12 @@ import org.junit.Test;
 public class ChefTest {
 
     @Test
-    public void testChefMakes200WhenGivenRoot()
-    { assertEquals("200 OK", Chef.plate("/")); }
+    public void testChefMakes200WhenGivenRoot() {
+        assertEquals("200 OK", Chef.plate("/"));
+    }
 
     @Test
-    public void testChefMakes404WhenGivenAnythingOtherThanRoot()
-    { assertEquals("404 Not Found", Chef.plate("/A-day-not-night-to-see-till-I-see-thee")); }
+    public void testChefMakes404WhenGivenAnythingOtherThanRoot() {
+        assertEquals("404 Not Found", Chef.plate("/A-day-not-night-to-see-till-I-see-thee"));
+    }
 }

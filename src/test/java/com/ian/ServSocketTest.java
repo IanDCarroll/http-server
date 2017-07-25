@@ -20,19 +20,13 @@ public class ServSocketTest {
 
     @Test
     public void testClientSocketGetsHTTP200ResponseWhenRootIsRequested() {
-        try { Thread.sleep(1); } catch (InterruptedException e){ e.getMessage(); }
-        String expected;
-        try { expected = ClientSocketHelper.request("GET / HTTP/1.1");
-        } catch ( IOException e ) { expected = e.getMessage(); }
-        assertEquals("HTTP/1.1 200 OK", expected);
+        String response = ClientSocketHelper.request("GET / HTTP/1.1");
+        assertEquals("HTTP/1.1 200 OK", response);
     }
 
     @Test
     public void testClientSocketGetsHTTP404ResponseWhenAnythingOtherThanRootIsRequested() {
-        try { Thread.sleep(1); } catch (InterruptedException e){ e.getMessage(); }
-        String expected;
-        try { expected = ClientSocketHelper.request("GET /a-day-not-night-to-see-till-i-see-thee HTTP/1.1");
-        } catch ( IOException e ) { expected = e.getMessage(); }
-        assertEquals("HTTP/1.1 404 Not Found", expected);
+        String response = ClientSocketHelper.request("GET /a-day-not-night-to-see-till-i-see-thee HTTP/1.1");
+        assertEquals("HTTP/1.1 404 Not Found", response);
     }
 }

@@ -4,18 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 
-import java.io.IOException;
-
 public class ServSocketTest {
 
     @BeforeClass
     public static void startUp() {
-        class SeparateThread implements Runnable {
-            public void run() {
-                ServSocket.serve(5000);
-            }
-        }
-        new Thread(new SeparateThread()).start();
+        Runnable serverThread = () -> new ServSocket().serve(5000);
+        new Thread(serverThread).start();
     }
 
     @Test

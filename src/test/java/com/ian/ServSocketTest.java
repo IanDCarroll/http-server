@@ -6,12 +6,6 @@ import org.junit.*;
 
 public class ServSocketTest {
 
-    @BeforeClass
-    public static void startUp() {
-        Runnable serverThread = () -> new ServSocket().serve(5000);
-        new Thread(serverThread).start();
-    }
-
     @Test
     public void testClientSocketGetsHTTP200ResponseWhenRootIsRequested() {
         String response = ClientSocketHelper.request("GET / HTTP/1.1");

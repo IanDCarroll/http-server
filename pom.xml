@@ -46,7 +46,7 @@
               <archive>
                 <manifest>
                   <addClasspath>true</addClasspath>
-                  <mainClass>com.ian.ServSocket</mainClass>
+                  <mainClass>com.ian.Server</mainClass>
                 </manifest>
               </archive>
             </configuration>

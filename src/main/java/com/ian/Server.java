@@ -3,21 +3,24 @@ package com.ian;
 import java.net.*;
 import java.io.*;
 
-public class ServSocket {
+public class Server {
+    public static int port = 5000;
+
     public static void main(String[] args) {
-        int port = 5000;
         try { port = Integer.parseInt(args[0]);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.format("No param for port number; using default port %d", port);
         } finally {
-            serve(port);
+            Server cafeFrance = new Server();
+            cafeFrance.serve();
         }
     }
 
-    public static void serve(int port) {
+    public void serve() {
 
         try {
             ServerSocket maitreD = new ServerSocket(port);
+            synchronized (this) { notify(); }
 
             while (true) {
                 Socket garconDeCafe = maitreD.accept();
@@ -34,4 +37,3 @@ public class ServSocket {
         }
     }
 }
-

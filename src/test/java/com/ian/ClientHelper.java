@@ -14,6 +14,7 @@ public class ClientHelper {
 
             outToServer.println(toServer);
             response = inFromServer.readLine();
+            clientSocket.close();
         } catch (IOException e) { response = e.getMessage(); }
         return response;
     }

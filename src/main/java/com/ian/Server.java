@@ -4,7 +4,9 @@ import java.net.*;
 import java.io.*;
 
 public class Server {
+    private ServerSocket maitreD;
     public static int port = 5000;
+    public boolean theDiningRoomIsOpen = true;
 
     public static void main(String[] args) {
         try { port = Integer.parseInt(args[0]);
@@ -19,10 +21,10 @@ public class Server {
     public void serve() {
 
         try {
-            ServerSocket maitreD = new ServerSocket(port);
+            maitreD = new ServerSocket(port);
             synchronized (this) { notify(); }
 
-            while (true) {
+            while (theDiningRoomIsOpen) {
                 Socket garconDeCafe = maitreD.accept();
 
                 PrintWriter out = new PrintWriter(garconDeCafe.getOutputStream(), true);
@@ -31,9 +33,12 @@ public class Server {
                 out.println(Parser.parse(in.readLine()));
                 garconDeCafe.close();
             }
-        } catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
-            System.out.println(e.getMessage());
-        }
+        } catch (IOException e) { e.getMessage(); }
+    }
+
+    public void close() {
+        theDiningRoomIsOpen = false;
+        try{ maitreD.close();
+        } catch (IOException e) { e.getMessage(); }
     }
 }

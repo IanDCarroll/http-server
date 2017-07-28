@@ -1,15 +1,15 @@
 package com.ian;
 
 import static org.junit.Assert.assertEquals;
-
 import org.junit.*;
 
 public class IntegrationTest {
+    public static Server server = new Server();
+    public static Runnable serverRunnable = () -> server.serve();
+    public static Thread serverThread = new Thread(serverRunnable);
+
     @BeforeClass
     public static void startUp() {
-        Server server = new Server();
-        Runnable serverRunnable = () -> server.serve();
-        Thread serverThread = new Thread(serverRunnable);
         serverThread.start();
 
         synchronized (server) {
@@ -17,6 +17,11 @@ public class IntegrationTest {
                 server.wait();
             } catch (InterruptedException e) { e.getMessage(); }
         }
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        server.close();
     }
 
     @Test

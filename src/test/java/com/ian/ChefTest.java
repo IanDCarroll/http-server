@@ -7,11 +7,11 @@ public class ChefTest {
 
     @Test
     public void testChefMakes200WhenGivenRoot() {
-        assertEquals("200 OK", Chef.plate("/"));
+        assertEquals("HTTP/1.1 200 OK", Chef.plate("/"));
     }
 
     @Test
     public void testChefMakes404WhenGivenAnythingOtherThanRoot() {
-        assertEquals("404 Not Found", Chef.plate("/A-day-not-night-to-see-till-I-see-thee"));
+        assertEquals("HTTP/1.1 404 Not Found", Chef.plate("/A-day-not-night-to-see-till-I-see-thee"));
     }
 }

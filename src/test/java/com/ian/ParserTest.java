@@ -6,15 +6,9 @@ import org.junit.Test;
 public class ParserTest {
 
     @Test
-    public void testParserReturnsFormattedResponseWhenRootIsRequested() {
+    public void testParserReturnsFormattedResponseFromChef() {
         String request = "GET / HTTP/1.1";
         assertEquals("HTTP/1.1 200 OK", Parser.parse(request));
-    }
-
-    @Test
-    public void testParserReturns404ResponseWhenAnythingOtherThanRootIsRequested() {
-        String request = "GET /A-day-not-night-to-see-till-I-see-thee HTTP/1.1";
-        assertEquals("HTTP/1.1 404 Not Found", Parser.parse(request));
     }
 
     @Test
@@ -23,5 +17,19 @@ public class ParserTest {
                          "\nHost: [rsid].112.2o7.net" +
                          "\nX-Forwarded-For: 192.168.10.1";
         assertEquals("HTTP/1.1 200 OK", Parser.parse(request));
+    }
+
+    @Test
+    public void testParserParsesTheRootRequestedURI() {
+        String request = "GET / HTTP/1.1";
+        Parser.parse(request);
+        assertEquals("/", Parser.requestedURI);
+    }
+
+    @Test
+    public void testParserParsesTheSpecificRequestedURI() {
+        String request = "GET /shoes-and-ships-and-ceiling-wax HTTP/1.1";
+        Parser.parse(request);
+        assertEquals("/shoes-and-ships-and-ceiling-wax", Parser.requestedURI);
     }
 }

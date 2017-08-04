@@ -7,7 +7,7 @@ public class ChefTest {
 
     @Test
     public void testChefMakes200WhenGivenRoot() {
-        assertEquals("HTTP/1.1 200 OK", Chef.plate("/"));
+        assertEquals("HTTP/1.1 200 OK\r\n\r\n", Chef.plate("/"));
     }
 
     @Test

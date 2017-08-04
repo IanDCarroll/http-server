@@ -8,7 +8,7 @@ public class ParserTest {
     @Test
     public void testParserReturnsFormattedResponseFromChef() {
         String request = "GET / HTTP/1.1";
-        assertEquals("HTTP/1.1 200 OK", Parser.parse(request));
+        assertEquals("HTTP/1.1 200 OK\r\n\r\n", Parser.parse(request));
     }
 
     @Test
@@ -16,7 +16,7 @@ public class ParserTest {
         String request = "GET / HTTP/1.1" +
                          "\nHost: [rsid].112.2o7.net" +
                          "\nX-Forwarded-For: 192.168.10.1";
-        assertEquals("HTTP/1.1 200 OK", Parser.parse(request));
+        assertEquals("HTTP/1.1 200 OK\r\n\r\n", Parser.parse(request));
     }
 
     @Test

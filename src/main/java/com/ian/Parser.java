@@ -3,9 +3,9 @@ package com.ian;
 public class Parser {
     public static String requestedURI;
 
-    public static String parse(String request) {
+    public static String parse(String request, String directory) {
         String[] splitReq = request.split("\\s");
         requestedURI = splitReq[1];
-        return Chef.plate(requestedURI);
+        return Chef.plate(requestedURI, directory);
     }
 }

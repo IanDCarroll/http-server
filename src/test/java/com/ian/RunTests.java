@@ -3,10 +3,6 @@ package com.ian;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.List;
 
 
@@ -31,7 +27,7 @@ public class RunTests {
     }
 
     private static void runUnitTests() {
-        unit = JUnitCore.runClasses(ParserTest.class, ChefTest.class);
+        unit = JUnitCore.runClasses(ServerTest.class, ParserTest.class, ChefTest.class);
     }
 
     private static void runIntegrationTests() {

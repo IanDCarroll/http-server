@@ -10,12 +10,12 @@ public class Chef {
     private static final String ok = "HTTP/1.1 200 OK" + crlf;
     private static final String notFound = "HTTP/1.1 404 Not Found";
 
-    public static String plate(String order, String directory) {
-        return (order.equals("/")) ? ok : searchMenu(order, directory);
+    public static String plate(String directory, String order) {
+        return (order.equals("/")) ? ok : searchMenu(directory, order);
     }
 
-    public static String searchMenu(String uri, String directory) {
-        File file = new File(directory, uri);
+    public static String searchMenu(String directory, String order) {
+        File file = new File(directory, order);
         byte [] raw_contents;
         String contents = notFound;
 

@@ -6,6 +6,6 @@ public class Parser {
     public static String parse(String request, String directory) {
         String[] splitReq = request.split("\\s");
         requestedURI = splitReq[1];
-        return Chef.plate(requestedURI, directory);
+        return Chef.plate(directory, requestedURI);
     }
 }

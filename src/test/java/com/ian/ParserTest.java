@@ -8,16 +8,20 @@ public class ParserTest {
 
     @Test
     public void testParserReturnsFormattedResponseFromChef() {
+        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
+                "file1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
         String request = "GET / HTTP/1.1";
-        assertEquals("HTTP/1.1 200 OK\r\n\r\n", Parser.parse(request, directory));
+        assertEquals(expected, Parser.parse(request, directory));
     }
 
     @Test
     public void testParserIgnoresAdditionalContentPastTheRequestLine() {
+        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
+                "file1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
         String request = "GET / HTTP/1.1" +
                          "\nHost: [rsid].112.2o7.net" +
                          "\nX-Forwarded-For: 192.168.10.1";
-        assertEquals("HTTP/1.1 200 OK\r\n\r\n", Parser.parse(request, directory));
+        assertEquals(expected, Parser.parse(request, directory));
     }
 
     @Test

@@ -3,27 +3,39 @@ package com.ian;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
+import java.io.File;
+
 public class ChefTest {
     public static final String directory = "/Users/ian/cob_spec/public";
 
     @Test
-    public void testChefMakes200WhenGivenRoot() {
-        assertEquals("HTTP/1.1 200 OK\r\n\r\n", Chef.plate(directory,"/"));
+    public void menuGivesAListingOfDirectoryContents() {
+        File file = new File(directory, "/");
+        String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
+        assertEquals(expected, Chef.menuDuJour(file));
     }
 
     @Test
-    public void testChefMakes404WhenGivenAnythingOtherThanRoot() {
-        assertEquals("HTTP/1.1 404 Not Found", Chef.plate(directory,"/A-day-not-night-to-see-till-I-see-thee"));
-    }
-
-    @Test
-    public void searchMenuReturns404ResponseIfItCantFindTheRequest() {
-        assertEquals("HTTP/1.1 404 Not Found", Chef.searchMenu(directory,"/iced-hot-chocolate"));
-    }
-
-    @Test
-    public void searchMenuReturnsFileContents() {
+    public void cookOrderReturnsFileContents() {
+        File file = new File(directory, "/file1");
         String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 contents";
-        assertEquals(expected, Chef.searchMenu(directory,"/file1"));
+        assertEquals(expected, Chef.cookOrder(file));
+    }
+
+    @Test
+    public void searchMenuCallsMenuDuJourIfOrderIsADirectory() {
+        String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
+        assertEquals(expected, Chef.plate(directory, "/"));
+    }
+
+    @Test
+    public void searchMenuCallsCookOrderIfOrderIsAFile() {
+        String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 contents";
+        assertEquals(expected, Chef.plate(directory, "/file1"));
+    }
+
+    @Test
+    public void searchMenuReturns404IfOrderDoesNotExist() {
+        assertEquals("HTTP/1.1 404 Not Found", Chef.plate(directory,"/The_holy_grail"));
     }
 }

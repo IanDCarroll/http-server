@@ -11,22 +11,30 @@ public class Chef {
     private static final String notFound = "HTTP/1.1 404 Not Found";
 
     public static String plate(String directory, String order) {
-        return (order.equals("/")) ? ok : searchMenu(directory, order);
+        File entree = new File(directory, order);
+        if (!entree.exists()) {
+            return notFound;
+        } else if (entree.isDirectory()) {
+            return menuDuJour(entree);
+        } else {
+            return cookOrder(entree);
+        }
     }
 
-    public static String searchMenu(String directory, String order) {
-        File file = new File(directory, order);
-        byte [] raw_contents;
-        String contents = notFound;
+    public static String menuDuJour(File directory) {
+        String whiteSpace = " ";
+        String[] entrees = directory.list();
+        String menu = String.join(whiteSpace, entrees);
+        return ok + menu;
+    }
 
-
-        if (file.exists()) {
-            try {
-                raw_contents = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
-                contents = new String(raw_contents);
-                return ok + contents;
-            } catch (IOException e) { System.out.println(e.getMessage()); }
-        }
-        return contents;
+    public static String cookOrder(File entree) {
+        String voila;
+        try {
+            byte[] raw_ingredients = Files.readAllBytes(Paths.get(entree.getAbsolutePath()));
+            String sautee = new String(raw_ingredients);
+            voila = ok + sautee;
+        } catch (IOException e) { voila = e.getMessage(); }
+        return voila;
     }
 }

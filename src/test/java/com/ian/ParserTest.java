@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class ParserTest {
-    public static final String directory = "/Users/ian/cob_spec/public";
+    public static final String directory =
+            System.getProperty("user.dir") + "/public";
 
     @Test
     public void testParserReturnsFormattedResponseFromChef() {

@@ -4,28 +4,27 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class ServerTest {
+    public static final int defaultPort = 5000;
+    public static final String defaultDirectory =
+            System.getProperty("user.dir") + "/public";
 
     @Test
-    public void testServerServesDefaultPortAndDirWhenInit() {
-        int defaultPort = 5000;
-        String defaultDirectory = "/Users/ian/cob_spec/public";
+    public void serverServesDefaultPortAndDirectory() {
         Server server = new Server();
         assertEquals(defaultPort, server.port);
         assertEquals(defaultDirectory, server.directory);
     }
 
     @Test
-    public void testServerServesSpecifiedPortWithDefaultDirectory() {
+    public void serverServesSpecifiedPortWithDefaultDirectory() {
         int specifiedPort = 1701;
-        String defaultDirectory = "/Users/ian/cob_spec/public";
         Server server = new Server(specifiedPort);
         assertEquals(specifiedPort, server.port);
         assertEquals(defaultDirectory, server.directory);
     }
 
     @Test
-    public void testServerServesDefaultPortWithSpecifiedDirectory() {
-        int defaultPort = 5000;
+    public void serverServesDefaultPortWithSpecifiedDirectory() {
         String specifiedDirectory = "/Users/geordie/dr_leah_brahms_sim";
         Server server = new Server(specifiedDirectory);
         assertEquals(defaultPort, server.port);
@@ -33,7 +32,7 @@ public class ServerTest {
     }
 
     @Test
-    public void testServerServesSpecifiedPortAndDirectory() {
+    public void serverServesSpecifiedPortAndDirectory() {
         int specifiedPort = 1701;
         String specifiedDirectory = "/Users/geordie/dr_leah_brahms_sim";
         Server server = new Server(specifiedPort, specifiedDirectory);
@@ -42,7 +41,7 @@ public class ServerTest {
     }
 
     @Test
-    public void testReportReportsCorrectPortAndDirectory() {
+    public void reportReportsCorrectPortAndDirectory() {
         int port = 2525;
         String directory = "/Users/Zager&Evans";
         String expected = "Serving /Users/Zager&Evans on port 2525";

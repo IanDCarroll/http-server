@@ -6,7 +6,8 @@ import org.junit.Test;
 import java.io.File;
 
 public class ChefTest {
-    public static final String directory = "/Users/ian/cob_spec/public";
+    public static final String directory =
+            System.getProperty("user.dir") + "/public";
 
     @Test
     public void menuGivesAListingOfDirectoryContents() {

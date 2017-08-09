@@ -12,7 +12,15 @@ public class ChefTest {
     @Test
     public void menuGivesAListingOfDirectoryContents() {
         File file = new File(directory, "/");
-        String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
+        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
+                "<a href=\"file1\">file1</a>\n" +
+                "<a href=\"file2\">file2</a>\n" +
+                "<a href=\"image.gif\">image.gif</a>\n" +
+                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"image.png\">image.png</a>\n" +
+                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"text-file.txt\">text-file.txt</a>";
         assertEquals(expected, Chef.menuDuJour(file));
     }
 
@@ -25,7 +33,15 @@ public class ChefTest {
 
     @Test
     public void searchMenuCallsMenuDuJourIfOrderIsADirectory() {
-        String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
+        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
+                "<a href=\"file1\">file1</a>\n" +
+                "<a href=\"file2\">file2</a>\n" +
+                "<a href=\"image.gif\">image.gif</a>\n" +
+                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"image.png\">image.png</a>\n" +
+                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"text-file.txt\">text-file.txt</a>";
         assertEquals(expected, Chef.plate(directory, "/"));
     }
 

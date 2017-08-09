@@ -8,17 +8,31 @@ public class ParserTest {
             System.getProperty("user.dir") + "/public";
 
     @Test
-    public void testParserReturnsFormattedResponseFromChef() {
+    public void parserReturnsFormattedResponseFromChef() {
         String expected = "HTTP/1.1 200 OK\r\n\r\n" +
-                "file1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
+                "<a href=\"file1\">file1</a>\n" +
+                "<a href=\"file2\">file2</a>\n" +
+                "<a href=\"image.gif\">image.gif</a>\n" +
+                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"image.png\">image.png</a>\n" +
+                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"text-file.txt\">text-file.txt</a>";
         String request = "GET / HTTP/1.1";
         assertEquals(expected, Parser.parse(request, directory));
     }
 
     @Test
-    public void testParserIgnoresAdditionalContentPastTheRequestLine() {
+    public void parserIgnoresAdditionalContentPastTheRequestLine() {
         String expected = "HTTP/1.1 200 OK\r\n\r\n" +
-                "file1 file2 image.gif image.jpeg image.png partial_content.txt patch-content.txt text-file.txt";
+                "<a href=\"file1\">file1</a>\n" +
+                "<a href=\"file2\">file2</a>\n" +
+                "<a href=\"image.gif\">image.gif</a>\n" +
+                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"image.png\">image.png</a>\n" +
+                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"text-file.txt\">text-file.txt</a>";
         String request = "GET / HTTP/1.1" +
                          "\nHost: [rsid].112.2o7.net" +
                          "\nX-Forwarded-For: 192.168.10.1";
@@ -26,14 +40,14 @@ public class ParserTest {
     }
 
     @Test
-    public void testParserParsesTheRootRequestedURI() {
+    public void parserParsesTheRootRequestedURI() {
         String request = "GET / HTTP/1.1";
         Parser.parse(request, directory);
         assertEquals("/", Parser.requestedURI);
     }
 
     @Test
-    public void testParserParsesTheSpecificRequestedURI() {
+    public void parserParsesTheSpecificRequestedURI() {
         String request = "GET /shoes-and-ships-and-ceiling-wax HTTP/1.1";
         Parser.parse(request, directory);
         assertEquals("/shoes-and-ships-and-ceiling-wax", Parser.requestedURI);

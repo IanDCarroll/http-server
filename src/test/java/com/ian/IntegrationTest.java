@@ -25,14 +25,23 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testClientSocketGetsHTTP200ResponseWhenRootIsRequested() {
+    public void clientSocketGetsHTTP200ResponseWhenRootIsRequested() {
+        String expected = "HTTP/1.1 200 OK";
         String response = ClientHelper.request("GET / HTTP/1.1");
-        assertEquals("HTTP/1.1 200 OK", response);
+        assertEquals(expected, response);
     }
 
     @Test
-    public void testClientSocketGetsHTTP404ResponseWhenAnythingOtherThanRootIsRequested() {
+    public void clientSocketGetsFileContents() {
+        String expected = "HTTP/1.1 200 OK";
+        String response = ClientHelper.request("GET /file1 HTTP/1.1");
+        assertEquals(expected, response);
+    }
+
+    @Test
+    public void clientSocketGetsHTTP404ResponseWhenAnythingOtherThanRootIsRequested() {
         String response = ClientHelper.request("GET /a-day-not-night-to-see-till-i-see-thee HTTP/1.1");
+
         assertEquals("HTTP/1.1 404 Not Found", response);
     }
 }

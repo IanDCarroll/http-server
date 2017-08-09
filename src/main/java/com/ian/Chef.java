@@ -22,9 +22,12 @@ public class Chef {
     }
 
     public static String menuDuJour(File directory) {
-        String whiteSpace = " ";
+        String newLine = "\n";
         String[] entrees = directory.list();
-        String menu = String.join(whiteSpace, entrees);
+        for (int i = 0; i < entrees.length; i++) {
+            entrees[i] = "<a href=\"" + entrees[i] + "\">" + entrees[i] + "</a>";
+        }
+        String menu = String.join(newLine, entrees);
         return ok + menu;
     }
 

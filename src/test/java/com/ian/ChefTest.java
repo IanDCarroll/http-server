@@ -12,7 +12,8 @@ public class ChefTest {
     @Test
     public void menuGivesAListingOfDirectoryContents() {
         File file = new File(directory, "/");
-        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
+        String expected = "HTTP/1.1 200 OK" +
+                "\r\n\r\n" +
                 "<a href=\"file1\">file1</a>\n" +
                 "<a href=\"file2\">file2</a>\n" +
                 "<a href=\"image.gif\">image.gif</a>\n" +
@@ -22,13 +23,6 @@ public class ChefTest {
                 "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
                 "<a href=\"text-file.txt\">text-file.txt</a>";
         assertEquals(expected, Chef.menuDuJour(file));
-    }
-
-    @Test
-    public void cookOrderReturnsFileContents() {
-        File file = new File(directory, "/file1");
-        String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 contents";
-        assertEquals(expected, Chef.cookOrder(file));
     }
 
     @Test
@@ -46,9 +40,24 @@ public class ChefTest {
     }
 
     @Test
-    public void searchMenuCallsCookOrderIfOrderIsAFile() {
-        String expected = "HTTP/1.1 200 OK\r\n\r\nfile1 contents";
+    public void plateCallsCookOrderIfOrderIsAFile() {
+        String expected = "HTTP/1.1 200 OK" +
+                "\n" +
+                "Content-Type: text/plain" +
+                "\r\n\r\n" +
+                "file1 contents";
         assertEquals(expected, Chef.plate(directory, "/file1"));
+    }
+
+    @Test
+    public void cookOrderReturnsFileContents() {
+        File file = new File(directory, "/file1");
+        String expected = "HTTP/1.1 200 OK" +
+                "\n" +
+                "Content-Type: text/plain" +
+                "\r\n\r\n" +
+                "file1 contents";
+        assertEquals(expected, Chef.cookOrder(file));
     }
 
     @Test

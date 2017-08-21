@@ -7,7 +7,9 @@ import java.nio.file.Paths;
 
 public class Chef {
     private static final String crlf = "\r\n\r\n";
-    private static final String ok = "HTTP/1.1 200 OK" + crlf;
+    private static final String nl = "\n";
+    private static final String header = "Content-Type: text/plain";
+    private static final String ok = "HTTP/1.1 200 OK";
     private static final String notFound = "HTTP/1.1 404 Not Found";
 
     public static String plate(String directory, String order) {
@@ -28,7 +30,7 @@ public class Chef {
             entrees[i] = "<a href=\"" + entrees[i] + "\">" + entrees[i] + "</a>";
         }
         String menu = String.join(newLine, entrees);
-        return ok + menu;
+        return ok + crlf + menu;
     }
 
     public static String cookOrder(File entree) {
@@ -36,7 +38,7 @@ public class Chef {
         try {
             byte[] raw_ingredients = Files.readAllBytes(Paths.get(entree.getAbsolutePath()));
             String sautee = new String(raw_ingredients);
-            voila = ok + sautee;
+            voila = ok + Souchef.plateHeaders() + crlf + sautee;
         } catch (IOException e) { voila = e.getMessage(); }
         return voila;
     }

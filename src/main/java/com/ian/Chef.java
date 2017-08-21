@@ -38,7 +38,7 @@ public class Chef {
         try {
             byte[] raw_ingredients = Files.readAllBytes(Paths.get(entree.getAbsolutePath()));
             String sautee = new String(raw_ingredients);
-            voila = ok + Souchef.plateHeaders() + crlf + sautee;
+            voila = ok + SousChef.plateHeaders(entree) + crlf + sautee;
         } catch (IOException e) { voila = e.getMessage(); }
         return voila;
     }

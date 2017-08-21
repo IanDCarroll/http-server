@@ -42,8 +42,8 @@ public class ChefTest {
     @Test
     public void plateCallsCookOrderIfOrderIsAFile() {
         String expected = "HTTP/1.1 200 OK" +
-                "\n" +
-                "Content-Type: text/plain" +
+                "\nContent-Length: 14" +
+                "\nContent-Type: text/plain" +
                 "\r\n\r\n" +
                 "file1 contents";
         assertEquals(expected, Chef.plate(directory, "/file1"));
@@ -53,8 +53,8 @@ public class ChefTest {
     public void cookOrderReturnsFileContents() {
         File file = new File(directory, "/file1");
         String expected = "HTTP/1.1 200 OK" +
-                "\n" +
-                "Content-Type: text/plain" +
+                "\nContent-Length: 14" +
+                "\nContent-Type: text/plain" +
                 "\r\n\r\n" +
                 "file1 contents";
         assertEquals(expected, Chef.cookOrder(file));

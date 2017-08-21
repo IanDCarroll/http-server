@@ -27,7 +27,10 @@ public class RunTests {
     }
 
     private static void runUnitTests() {
-        unit = JUnitCore.runClasses(ServerTest.class, ParserTest.class, ChefTest.class);
+        unit = JUnitCore.runClasses(ServerTest.class,
+                                    ParserTest.class,
+                                    ChefTest.class,
+                                    SousChefTest.class);
     }
 
     private static void runIntegrationTests() {

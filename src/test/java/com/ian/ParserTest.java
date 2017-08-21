@@ -52,4 +52,10 @@ public class ParserTest {
         Parser.parse(request, directory);
         assertEquals("/shoes-and-ships-and-ceiling-wax", Parser.requestedURI);
     }
+
+    @Test
+    public void parserHandlesNullRequests() {
+        Parser.parse(null, directory);
+        assertEquals(null, Parser.requestedURI);
+    }
 }

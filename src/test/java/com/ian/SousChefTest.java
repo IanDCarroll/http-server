@@ -32,6 +32,18 @@ public class SousChefTest {
     }
 
     @Test
+    public void plateContentTypeReturnscontentTypeImageGifWhenFileIsAJpeg() {
+        String expected = "\nContent-Type: image/jpeg";
+        assertEquals(expected, SousChef.plateContentType("file1.jpeg"));
+    }
+
+    @Test
+    public void plateContentTypeReturnscontentTypeImageGifWhenFileIsApng() {
+        String expected = "\nContent-Type: image/png";
+        assertEquals(expected, SousChef.plateContentType("file1.png"));
+    }
+
+    @Test
     public void plateContentLengthReturnsContentLength() {
         String expected = "\nContent-Length: 42";
         assertEquals(expected, SousChef.plateContentLength(42));

@@ -40,8 +40,8 @@ public class IntegrationTest {
 
     @Test
     public void clientSocketGetsHTTP404ResponseWhenAnythingOtherThanRootIsRequested() {
+        String expected = "HTTP/1.1 404 Not Found";
         String response = ClientHelper.request("GET /a-day-not-night-to-see-till-i-see-thee HTTP/1.1");
-
-        assertEquals("HTTP/1.1 404 Not Found", response);
+        assertEquals(expected, response);
     }
 }

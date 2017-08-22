@@ -3,10 +3,11 @@ package com.ian;
 import java.io.File;
 
 public class SousChef {
-    public static String plateHeaders(File file) {
+    public static byte[] plateHeaders(File file) {
         String contentLength = plateContentLength(file.length());
         String contentType = plateContentType(file.getName());
-        return contentLength + contentType;
+        String headers = contentLength + contentType;
+        return headers.getBytes();
 
     }
 

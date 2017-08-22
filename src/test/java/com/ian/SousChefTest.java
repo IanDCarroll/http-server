@@ -15,8 +15,9 @@ public class SousChefTest {
     public void sousChefTypeReturnsContentType() {
         File file = new File(directory, "file1");
         String expected = "\nContent-Length: 14" +
-                          "\nContent-Type: text/plain";
-        assertEquals(expected, SousChef.plateHeaders(file));
+                           "\nContent-Type: text/plain";
+        String actual = new String(SousChef.plateHeaders(file));
+        assertEquals(expected, actual);
     }
 
     @Test

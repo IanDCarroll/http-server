@@ -14,29 +14,48 @@ public class ChefTest {
         File file = new File(directory, "/");
         String expected = "HTTP/1.1 200 OK" +
                 "\r\n\r\n" +
-                "<a href=\"file1\">file1</a>\n" +
-                "<a href=\"file2\">file2</a>\n" +
-                "<a href=\"image.gif\">image.gif</a>\n" +
-                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
-                "<a href=\"image.png\">image.png</a>\n" +
-                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
-                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
-                "<a href=\"text-file.txt\">text-file.txt</a>";
-        assertEquals(expected, Chef.menuDuJour(file));
+                "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "<title></title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<a href=\"/file1\">file1</a>\n" +
+                "<a href=\"/file2\">file2</a>\n" +
+                "<a href=\"/image.gif\">image.gif</a>\n" +
+                "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"/image.png\">image.png</a>\n" +
+                "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"/text-file.txt\">text-file.txt</a>" +
+                "\n</body>" +
+                "\n</html>";
+        String actual = new String(Chef.menuDuJour(file));
+        assertEquals(expected, actual);
     }
 
     @Test
-    public void searchMenuCallsMenuDuJourIfOrderIsADirectory() {
-        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
-                "<a href=\"file1\">file1</a>\n" +
-                "<a href=\"file2\">file2</a>\n" +
-                "<a href=\"image.gif\">image.gif</a>\n" +
-                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
-                "<a href=\"image.png\">image.png</a>\n" +
-                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
-                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
-                "<a href=\"text-file.txt\">text-file.txt</a>";
-        assertEquals(expected, Chef.plate(directory, "/"));
+    public void plateCallsMenuDuJourIfOrderIsADirectory() {
+        String expected = "HTTP/1.1 200 OK" +
+                "\r\n\r\n" +
+                "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "<title></title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<a href=\"/file1\">file1</a>\n" +
+                "<a href=\"/file2\">file2</a>\n" +
+                "<a href=\"/image.gif\">image.gif</a>\n" +
+                "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"/image.png\">image.png</a>\n" +
+                "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"/text-file.txt\">text-file.txt</a>" +
+                "\n</body>" +
+                "\n</html>";
+        String actual = new String(Chef.plate(directory, "/"));
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -46,7 +65,8 @@ public class ChefTest {
                 "\nContent-Type: text/plain" +
                 "\r\n\r\n" +
                 "file1 contents";
-        assertEquals(expected, Chef.plate(directory, "/file1"));
+        String actual = new String(Chef.plate(directory, "/file1"));
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -57,11 +77,14 @@ public class ChefTest {
                 "\nContent-Type: text/plain" +
                 "\r\n\r\n" +
                 "file1 contents";
-        assertEquals(expected, Chef.cookOrder(file));
+        String actual = new String(Chef.cookOrder(file));
+        assertEquals(expected, actual);
     }
 
     @Test
     public void searchMenuReturns404IfOrderDoesNotExist() {
-        assertEquals("HTTP/1.1 404 Not Found", Chef.plate(directory,"/The_holy_grail"));
+        String expected = "HTTP/1.1 404 Not Found";
+        String actual = new String(Chef.plate(directory, "/the_holy_grail"));
+        assertEquals( expected, actual);
     }
 }

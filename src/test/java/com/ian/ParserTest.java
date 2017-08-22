@@ -9,34 +9,54 @@ public class ParserTest {
 
     @Test
     public void parserReturnsFormattedResponseFromChef() {
-        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
-                "<a href=\"file1\">file1</a>\n" +
-                "<a href=\"file2\">file2</a>\n" +
-                "<a href=\"image.gif\">image.gif</a>\n" +
-                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
-                "<a href=\"image.png\">image.png</a>\n" +
-                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
-                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
-                "<a href=\"text-file.txt\">text-file.txt</a>";
+        String expected = "HTTP/1.1 200 OK" +
+                "\r\n\r\n" +
+                "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "<title></title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<a href=\"/file1\">file1</a>\n" +
+                "<a href=\"/file2\">file2</a>\n" +
+                "<a href=\"/image.gif\">image.gif</a>\n" +
+                "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"/image.png\">image.png</a>\n" +
+                "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"/text-file.txt\">text-file.txt</a>" +
+                "\n</body>" +
+                "\n</html>";
         String request = "GET / HTTP/1.1";
-        assertEquals(expected, Parser.parse(request, directory));
+        String actual = new String(Parser.parse(request, directory));
+        assertEquals(expected, actual);
     }
 
     @Test
     public void parserIgnoresAdditionalContentPastTheRequestLine() {
-        String expected = "HTTP/1.1 200 OK\r\n\r\n" +
-                "<a href=\"file1\">file1</a>\n" +
-                "<a href=\"file2\">file2</a>\n" +
-                "<a href=\"image.gif\">image.gif</a>\n" +
-                "<a href=\"image.jpeg\">image.jpeg</a>\n" +
-                "<a href=\"image.png\">image.png</a>\n" +
-                "<a href=\"partial_content.txt\">partial_content.txt</a>\n" +
-                "<a href=\"patch-content.txt\">patch-content.txt</a>\n" +
-                "<a href=\"text-file.txt\">text-file.txt</a>";
+        String expected = "HTTP/1.1 200 OK" +
+                "\r\n\r\n" +
+                "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "<title></title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<a href=\"/file1\">file1</a>\n" +
+                "<a href=\"/file2\">file2</a>\n" +
+                "<a href=\"/image.gif\">image.gif</a>\n" +
+                "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
+                "<a href=\"/image.png\">image.png</a>\n" +
+                "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
+                "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
+                "<a href=\"/text-file.txt\">text-file.txt</a>" +
+                "\n</body>" +
+                "\n</html>";
         String request = "GET / HTTP/1.1" +
                          "\nHost: [rsid].112.2o7.net" +
                          "\nX-Forwarded-For: 192.168.10.1";
-        assertEquals(expected, Parser.parse(request, directory));
+        String actual = new String(Parser.parse(request, directory));
+        assertEquals(expected, actual);
     }
 
     @Test

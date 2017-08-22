@@ -46,10 +46,14 @@ public class Server {
             while (theDiningRoomIsOpen) {
                 Socket garconDeCafe = maitreD.accept();
 
-                PrintWriter out = new PrintWriter(garconDeCafe.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(garconDeCafe.getInputStream(), "UTF-8"));
+                BufferedOutputStream out = new BufferedOutputStream(garconDeCafe.getOutputStream());
 
-                out.println(Parser.parse(in.readLine(), directory));
+                try {
+                    byte[] response = Parser.parse(in.readLine(), directory);
+                    out.write(response);
+                    out.flush();
+                } catch (NullPointerException e) {}
                 garconDeCafe.close();
             }
         } catch (IOException e) { e.getMessage(); }

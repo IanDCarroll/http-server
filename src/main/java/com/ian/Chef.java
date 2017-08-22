@@ -23,11 +23,10 @@ public class Chef {
 
     public static byte[] menuDuJour(File directory) {
         String newLine = "\n";
-        String dirName = directory.getName();
         String beginning = "<!DOCTYPE html>\n" +
                            "<html>\n" +
                            "<head>\n" +
-                           "<title>" + dirName + "</title>\n" +
+                           "<title></title>\n" +
                            "</head>\n" +
                            "<body>\n";
         String end =       "\n</body>" +
@@ -39,17 +38,8 @@ public class Chef {
         }
         String menuContent = String.join(newLine, entrees);
         byte[] menu = String.join(menuContent, menuBacking).getBytes();
-
-        int firstIndex = 0;
-        int headerLength = ok.length + crlf.length;
-        int fullLength = ok.length + crlf.length + menu.length;
-
-        byte[] boundMenu = new byte[fullLength];
-        System.arraycopy(ok, firstIndex, boundMenu, firstIndex, ok.length);
-        System.arraycopy(crlf, firstIndex, boundMenu, ok.length, crlf.length);
-        System.arraycopy(menu, firstIndex, boundMenu, headerLength, menu.length);
-
-        return boundMenu;
+        byte[][] allBytes = { ok, crlf, menu };
+        return LineCook.marinateBytes(allBytes);
     }
 
     public static byte[] cookOrder(File entree) {
@@ -57,17 +47,9 @@ public class Chef {
         try {
             byte[] raw_ingredients = Files.readAllBytes(Paths.get(entree.getAbsolutePath()));
             byte[] headers = SousChef.plateHeaders(entree);
+            byte[][] allBytes = { ok, headers, crlf, raw_ingredients };
+            voila = LineCook.marinateBytes(allBytes);
 
-            int firstIndex = 0;
-            int headerLength = ok.length + headers.length;
-            int noBodyLength = headerLength + crlf.length;
-            int fullLength = ok.length + headers.length + crlf.length + raw_ingredients.length;
-
-            voila = new byte[fullLength];
-            System.arraycopy(ok, firstIndex, voila, firstIndex, ok.length);
-            System.arraycopy(headers, firstIndex, voila, ok.length, headers.length);
-            System.arraycopy(crlf, firstIndex, voila, headerLength, crlf.length);
-            System.arraycopy(raw_ingredients, firstIndex, voila, noBodyLength, raw_ingredients.length);
         } catch (IOException e) { System.out.println(e.getMessage()); }
 
         return voila;

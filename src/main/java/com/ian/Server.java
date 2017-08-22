@@ -14,28 +14,20 @@ public class Server {
     }
 
     public Server() {
-        report();
     }
 
     public Server(int port) {
         this.port = port;
-        report();
     }
 
     public Server(String directory) {
         this.directory = directory;
-        report();
     }
 
     public Server(int port, String directory) {
         this.port = port;
         this.directory = directory;
-        report();
     }
-
-    public String report() {
-        return "Serving " + directory + " on port " + Integer.toString(port);
-    };
 
     public void serve() {
 

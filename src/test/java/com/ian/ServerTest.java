@@ -39,13 +39,4 @@ public class ServerTest {
         assertEquals(specifiedPort, server.port);
         assertEquals(specifiedDirectory, server.directory);
     }
-
-    @Test
-    public void reportReportsCorrectPortAndDirectory() {
-        int port = 2525;
-        String directory = "/Users/Zager&Evans";
-        String expected = "Serving /Users/Zager&Evans on port 2525";
-        Server server = new Server(port, directory);
-        assertEquals(expected, server.report());
-    }
 }

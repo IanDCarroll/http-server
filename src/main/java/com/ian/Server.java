@@ -13,8 +13,7 @@ public class Server {
         return System.getProperty("user.dir") + "/public";
     }
 
-    public Server() {
-    }
+    public Server() { }
 
     public Server(int port) {
         this.port = port;
@@ -37,17 +36,25 @@ public class Server {
 
             while (theDiningRoomIsOpen) {
                 Socket garconDeCafe = maitreD.accept();
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(garconDeCafe.getInputStream(), "UTF-8"));
-                BufferedOutputStream out = new BufferedOutputStream(garconDeCafe.getOutputStream());
-
-                try {
-                    byte[] response = Parser.parse(in.readLine(), directory);
-                    out.write(response);
-                    out.flush();
-                } catch (NullPointerException e) {}
-                garconDeCafe.close();
+                Runnable garconRunnable = () -> provideTheFinestDiningExperience(garconDeCafe);
+                Thread garconThread = new Thread(garconRunnable);
+                garconThread.start();
             }
+        } catch (IOException e) { e.getMessage(); }
+    }
+
+    public void provideTheFinestDiningExperience(Socket garconDeCafe) {
+        try {
+            BufferedReader activeListening =
+                    new BufferedReader(new InputStreamReader(garconDeCafe.getInputStream(), "UTF-8"));
+            BufferedOutputStream senseOfUrgency =
+                    new BufferedOutputStream(garconDeCafe.getOutputStream());
+            try {
+                byte[] serverResponse = Parser.parse(activeListening.readLine(), directory);
+                senseOfUrgency.write(serverResponse);
+                senseOfUrgency.flush();
+            } catch (NullPointerException e) { e.getMessage(); }
+            garconDeCafe.close();
         } catch (IOException e) { e.getMessage(); }
     }
 

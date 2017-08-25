@@ -29,6 +29,7 @@ public class RunTests {
     private static void runUnitTests() {
         unit = JUnitCore.runClasses(ServerTest.class,
                                     ParserTest.class,
+                                    ParamParserTest.class,
                                     ChefTest.class,
                                     SousChefTest.class,
                                     LineCookTest.class);

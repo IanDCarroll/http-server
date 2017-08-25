@@ -7,7 +7,7 @@ public class Parser {
         try {
             String[] splitReq = request.split("\\s");
             requestedURI = splitReq[1];
-            return Chef.plate(directory, requestedURI);
+            return Chef.plate(directory, ParamParser.parseUrl(requestedURI));
         } catch ( NullPointerException e ) {
             requestedURI = null;
             return null;

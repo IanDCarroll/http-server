@@ -1,5 +1,6 @@
 package com.ian;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -61,21 +62,24 @@ public class ParserTest {
 
     @Test
     public void parserParsesTheRootRequestedURI() {
+        String expected = "/";
         String request = "GET / HTTP/1.1";
         Parser.parse(request, directory);
-        assertEquals("/", Parser.requestedURI);
+        assertEquals(expected, Parser.requestedURI);
     }
 
     @Test
     public void parserParsesTheSpecificRequestedURI() {
+        String expected = "/shoes-and-ships-and-ceiling-wax";
         String request = "GET /shoes-and-ships-and-ceiling-wax HTTP/1.1";
         Parser.parse(request, directory);
-        assertEquals("/shoes-and-ships-and-ceiling-wax", Parser.requestedURI);
+        assertEquals(expected, Parser.requestedURI);
     }
 
     @Test
     public void parserHandlesNullRequests() {
+        String expected = null;
         Parser.parse(null, directory);
-        assertEquals(null, Parser.requestedURI);
+        assertEquals(expected, Parser.requestedURI);
     }
 }

@@ -10,8 +10,8 @@ public class Chef {
     private static final byte[] ok = "HTTP/1.1 200 OK".getBytes();
     private static final byte[] notFound = "HTTP/1.1 404 Not Found".getBytes();
 
-    public static byte[] plate(String directory, String order) {
-        File entree = new File(directory, order);
+    public static byte[] plate(String directory, String[] order) {
+        File entree = new File(directory, order[0]);
         if (!entree.exists()) {
             return notFound;
         } else if (entree.isDirectory()) {

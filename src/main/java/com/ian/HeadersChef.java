@@ -2,7 +2,7 @@ package com.ian;
 
 import java.io.File;
 
-public class SousChef {
+public class HeadersChef {
     public static byte[] plateHeaders(File file) {
         String contentLength = plateContentLength(file.length());
         String contentType = plateContentType(file.getName());

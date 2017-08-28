@@ -9,7 +9,6 @@ public class LineCook {
             System.arraycopy(input, firstIndex, marinade, runningIndex, input.length);
             runningIndex += input.length;
         }
-
         return marinade;
     }
 

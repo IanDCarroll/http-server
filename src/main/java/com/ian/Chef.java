@@ -9,16 +9,24 @@ public class Chef {
     private static final byte[] crlf = "\r\n\r\n".getBytes();
     private static final byte[] ok = "HTTP/1.1 200 OK".getBytes();
     private static final byte[] notFound = "HTTP/1.1 404 Not Found".getBytes();
+    public static byte[] params = {};
 
     public static byte[] plate(String directory, String[] order) {
+        params = ParamsChef.plateParams(order);
         File entree = new File(directory, order[0]);
         if (!entree.exists()) {
-            return notFound;
+            return notOnTheMenu();
         } else if (entree.isDirectory()) {
             return menuDuJour(entree);
         } else {
             return cookOrder(entree);
         }
+    }
+
+    public static byte[] notOnTheMenu() {
+        byte[][] allBytes = { notFound, crlf, params };
+        resetParams();
+        return LineCook.marinateBytes(allBytes);
     }
 
     public static byte[] menuDuJour(File directory) {
@@ -38,7 +46,8 @@ public class Chef {
         }
         String menuContent = String.join(newLine, entrees);
         byte[] menu = String.join(menuContent, menuBacking).getBytes();
-        byte[][] allBytes = { ok, crlf, menu };
+        byte[][] allBytes = { ok, crlf, menu, params };
+        resetParams();
         return LineCook.marinateBytes(allBytes);
     }
 
@@ -46,12 +55,16 @@ public class Chef {
         byte[] voila = new byte[0];
         try {
             byte[] raw_ingredients = Files.readAllBytes(Paths.get(entree.getAbsolutePath()));
-            byte[] headers = SousChef.plateHeaders(entree);
-            byte[][] allBytes = { ok, headers, crlf, raw_ingredients };
+            byte[] headers = HeadersChef.plateHeaders(entree);
+            byte[][] allBytes = { ok, headers, crlf, raw_ingredients, params };
             voila = LineCook.marinateBytes(allBytes);
-
+            resetParams();
         } catch (IOException e) { System.out.println(e.getMessage()); }
 
         return voila;
+    }
+
+    public static void resetParams() {
+        params = new byte[0];
     }
 }

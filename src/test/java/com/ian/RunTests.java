@@ -31,7 +31,8 @@ public class RunTests {
                                     ParserTest.class,
                                     ParamParserTest.class,
                                     ChefTest.class,
-                                    SousChefTest.class,
+                                    HeadersChefTest.class,
+                                    ParamsChefTest.class,
                                     LineCookTest.class);
     }
 

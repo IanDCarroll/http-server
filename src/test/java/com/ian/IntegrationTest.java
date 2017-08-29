@@ -44,4 +44,18 @@ public class IntegrationTest {
         String response = ClientHelper.request("GET /a-day-not-night-to-see-till-i-see-thee HTTP/1.1");
         assertEquals(expected, response);
     }
+
+    @Test
+    public void clientSocketGetsHTTP200ResponseFromPOSTRequest() {
+        String expected = "HTTP/1.1 200 OK";
+        String response = ClientHelper.request("POST /form HTTP1.1");
+        assertEquals(expected, response);
+    }
+
+    @Test
+    public void clientSocketGetsHTTP200ResponseFromPUTRequest() {
+        String expected = "HTTP/1.1 200 OK";
+        String response = ClientHelper.request("PUT /form HTTP1.1");
+        assertEquals(expected, response);
+    }
 }

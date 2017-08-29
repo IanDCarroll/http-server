@@ -20,6 +20,7 @@ public class ParserTest {
                 "<body>\n" +
                 "<a href=\"/file1\">file1</a>\n" +
                 "<a href=\"/file2\">file2</a>\n" +
+                "<a href=\"/form\">form</a>\n" +
                 "<a href=\"/image.gif\">image.gif</a>\n" +
                 "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
                 "<a href=\"/image.png\">image.png</a>\n" +
@@ -45,6 +46,7 @@ public class ParserTest {
                 "<body>\n" +
                 "<a href=\"/file1\">file1</a>\n" +
                 "<a href=\"/file2\">file2</a>\n" +
+                "<a href=\"/form\">form</a>\n" +
                 "<a href=\"/image.gif\">image.gif</a>\n" +
                 "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
                 "<a href=\"/image.png\">image.png</a>\n" +

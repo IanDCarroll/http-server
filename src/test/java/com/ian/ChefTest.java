@@ -145,13 +145,12 @@ public class ChefTest {
 
     @Test
     public void cookOrderReturnsFileContents() {
-        File file = new File(directory, "/file1");
         String expected = "HTTP/1.1 200 OK" +
                 "\nContent-Length: 14" +
                 "\nContent-Type: text/plain" +
                 "\r\n\r\n" +
                 "file1 contents";
-        String actual = new String(Chef.cookOrder(file));
+        String actual = new String(Chef.cookOrder(directory, "/file1"));
         assertEquals(expected, actual);
     }
 

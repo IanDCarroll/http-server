@@ -14,12 +14,12 @@ public class Chef {
     public static byte[] plate(String directory, String[] order) {
         params = ParamsChef.plateParams(order);
         File entree = new File(directory, order[0]);
-        if (!entree.exists()) {
+        if (!FileFridge.inStock(directory, order[0])) {
             return notOnTheMenu();
-        } else if (entree.isDirectory()) {
+        } else if (FileFridge.isBox(directory, order[0])) {
             return menuDuJour(entree);
         } else {
-            return cookOrder(entree);
+            return cookOrder(directory, order[0]);
         }
     }
 
@@ -51,16 +51,12 @@ public class Chef {
         return LineCook.marinateBytes(allBytes);
     }
 
-    public static byte[] cookOrder(File entree) {
-        byte[] voila = new byte[0];
-        try {
-            byte[] raw_ingredients = Files.readAllBytes(Paths.get(entree.getAbsolutePath()));
-            byte[] headers = HeadersChef.plateHeaders(entree);
-            byte[][] allBytes = { ok, headers, crlf, raw_ingredients, params };
-            voila = LineCook.marinateBytes(allBytes);
-            resetParams();
-        } catch (IOException e) { System.out.println(e.getMessage()); }
-
+    public static byte[] cookOrder(String directory, String order) {
+        byte[] raw_ingredients = FileFridge.pullBytes(directory, order);
+        byte[] headers = HeadersChef.plateHeaders(directory, order);
+        byte[][] allBytes = { ok, headers, crlf, raw_ingredients, params };
+        byte[] voila = LineCook.marinateBytes(allBytes);
+        resetParams();
         return voila;
     }
 

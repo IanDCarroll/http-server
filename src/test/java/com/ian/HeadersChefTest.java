@@ -12,36 +12,18 @@ public class HeadersChefTest {
 
     @Test
     public void sousChefTypeReturnsContentType() {
-        File file = new File(directory, "file1");
         String expected = "\nContent-Length: 14" +
                            "\nContent-Type: text/plain";
-        String actual = new String(HeadersChef.plateHeaders(file));
+        String actual = new String(HeadersChef.plateHeaders(directory, "/file1"));
         assertEquals(expected, actual);
     }
 
     @Test
     public void plateContentTypeReturnsContentTypeTextPlainAsDefault() {
         String expected = "\nContent-Type: text/plain";
-        assertEquals(expected, HeadersChef.plateContentType("file1"));
+        assertEquals(expected, HeadersChef.plateContentType("text/plain"));
     }
 
-    @Test
-    public void plateContentTypeReturnscontentTypeImageGifWhenFileIsAGif() {
-        String expected = "\nContent-Type: image/gif";
-        assertEquals(expected, HeadersChef.plateContentType("file1.gif"));
-    }
-
-    @Test
-    public void plateContentTypeReturnscontentTypeImageGifWhenFileIsAJpeg() {
-        String expected = "\nContent-Type: image/jpeg";
-        assertEquals(expected, HeadersChef.plateContentType("file1.jpeg"));
-    }
-
-    @Test
-    public void plateContentTypeReturnscontentTypeImageGifWhenFileIsApng() {
-        String expected = "\nContent-Type: image/png";
-        assertEquals(expected, HeadersChef.plateContentType("file1.png"));
-    }
 
     @Test
     public void plateContentLengthReturnsContentLength() {

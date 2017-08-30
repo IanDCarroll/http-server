@@ -33,7 +33,8 @@ public class RunTests {
                                     ChefTest.class,
                                     HeadersChefTest.class,
                                     ParamsChefTest.class,
-                                    LineCookTest.class);
+                                    LineCookTest.class,
+                                    FileFridgeTest.class);
     }
 
     private static void runIntegrationTests() {

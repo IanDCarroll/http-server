@@ -1,7 +1,5 @@
 package com.ian;
 
-import java.io.File;
-
 public class HeadersChef {
     public static byte[] plateHeaders(String directory, String name) {
         String contentLength = plateContentLength(FileFridge.size(directory, name));

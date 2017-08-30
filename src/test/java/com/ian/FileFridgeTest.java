@@ -2,6 +2,10 @@ package com.ian;
 
 import org.junit.Test;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static org.junit.Assert.*;
 
 public class FileFridgeTest {
@@ -44,6 +48,31 @@ public class FileFridgeTest {
     }
 
     @Test
+    public void pushByteWritesAByteArrayToAnEmptyFile() {
+        String fileName = "/empty-file";
+        byte[] toBeWritten = "lacuna".getBytes();
+        FileFridge.pushBytes(directory, fileName, toBeWritten);
+        byte[] expected = toBeWritten;
+        byte[] actual = getFileBytes(fileName);
+        ensureDeletion(fileName);
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void pushBytesAppendsAByteArrayToTheEndOfTheFile() {
+        String fileName = "/the-argument-you-lost-half-an-hour-ago";
+        String startingContents = "Nah-aah!\nYes-huh!\nNah-ahh!\nYES-HUH!\n";
+        String toBeAppended = "And another thing...";
+        byte[] expected = (startingContents + toBeAppended).getBytes();
+
+        setFileBytes(fileName, startingContents.getBytes());
+        FileFridge.pushBytes(directory, fileName, toBeAppended.getBytes());
+        byte[] actual = getFileBytes(fileName);
+
+        ensureDeletion(fileName);
+        assertArrayEquals(expected, actual);
+    }
+    @Test
     public void sizeReturnsTheNUmberOfBytesTheFIleContains() {
         long expected = 14;
         long actual = FileFridge.size(directory, "/file1");
@@ -64,5 +93,51 @@ public class FileFridgeTest {
         assertEquals(jpeg, actualJpeg);
         assertEquals(gif, actualGif);
         assertEquals(png, actualPng);
+    }
+
+
+    @Test
+    public void stockCreatesANewFile() {
+        String fileName = "/canned-salmon";
+        boolean expected = true;
+        boolean actual = FileFridge.stock(directory, fileName);
+        ensureDeletion(fileName);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void wasteDeletesAFile() {
+        String fileName = "/the-salmon-mousse";
+        boolean expected = true;
+        byte[] empty = {0};
+        setFileBytes(fileName, empty);
+        boolean actual = FileFridge.waste(directory, fileName);
+        ensureDeletion(fileName);
+        assertEquals(expected, actual);
+    }
+
+    public static byte[] getFileBytes(String name) {
+        byte[] bytes = {0};
+        try {
+            bytes = Files.readAllBytes(Paths.get(directory + name));
+        } catch (IOException e) { System.out.println(e.getMessage()); }
+        return bytes;
+    }
+
+    public static void setFileBytes(String name, byte[] toBeWritten) {
+        boolean append = true;
+        File file = new File(directory, name);
+        try {
+            FileOutputStream outToFile = new FileOutputStream(file, append);
+            try {
+                outToFile.write(toBeWritten);
+                outToFile.close();
+            } catch (IOException e) { System.out.println( e.getMessage()); }
+        } catch (FileNotFoundException e) { System.out.println( e.getMessage()); }
+    }
+
+    public static void ensureDeletion(String name) {
+        File file = new File(directory, name);
+        file.delete();
     }
 }

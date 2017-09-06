@@ -28,11 +28,13 @@ public class Parser {
         String byAnyWhiteSpace = "\\s";
         try {
             String[] splitReq = request.split(byAnyWhiteSpace);
-            requestMethod = splitReq[0];
-            String[][] parsedUrl = ParamParser.parseUrl(splitReq[1]);
-            requestedUrl = parsedUrl[0][0];
-            params = parsedUrl[1];
-            httpVersion = splitReq[2];
+            try {
+                requestMethod = splitReq[0];
+                String[][] parsedUrl = ParamParser.parseUrl(splitReq[1]);
+                requestedUrl = parsedUrl[0][0];
+                params = parsedUrl[1];
+                httpVersion = splitReq[2];
+            } catch (ArrayIndexOutOfBoundsException e) { System.out.println("ArrayIndexOutOfBounds in Parser.parseHead"); }
         } catch (NullPointerException e) {
             resetParser();
         }

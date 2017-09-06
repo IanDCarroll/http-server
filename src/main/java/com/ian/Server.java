@@ -36,7 +36,6 @@ public class Server {
 
             while (theDiningRoomIsOpen) {
                 Socket garconDeCafe = maitreD.accept();
-                System.out.println("We get signal:");
                 Runnable garconRunnable = () -> provideTheFinestDiningExperience(garconDeCafe);
                 Thread garconThread = new Thread(garconRunnable);
                 garconThread.start();
@@ -50,10 +49,7 @@ public class Server {
                     new BufferedOutputStream(garconDeCafe.getOutputStream());
             try {
                 String order = activeListening(garconDeCafe);
-                System.out.println(order);
                 byte[] serverResponse = Parser.parse(order, directory);
-                String soThenISaid = new String(serverResponse);
-                System.out.println("We send response:\n" + soThenISaid);
                 senseOfUrgency.write(serverResponse);
                 senseOfUrgency.flush();
             } catch (NullPointerException e) { System.out.println(e.getMessage()); }
@@ -64,7 +60,6 @@ public class Server {
     public String activeListening(Socket garconDeCafe) {
         int orderMax = 1000;
         byte[] order = new byte[orderMax];
-        boolean done = false;
         try {
             try {
                 BufferedInputStream jotDownOrder = new BufferedInputStream(garconDeCafe.getInputStream());

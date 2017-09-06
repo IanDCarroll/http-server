@@ -13,10 +13,12 @@ public class Parser {
     public static String requestedUrl = emptyString;
     public static String[] params = emptyArray;
     public static String httpVersion = emptyString;
+    public static String requestBody = emptyString;
 
     public static byte[] parse(String request, String serverDirectory) {
         setDirectory(serverDirectory);
         parseHead(request);
+        setRequestBody(request);
         return illFormedRequest() ? null : applyAppropriateMethod();
     }
 
@@ -38,6 +40,20 @@ public class Parser {
         } catch (NullPointerException e) {
             resetParser();
         }
+    }
+
+    public static void setRequestBody(String request) {
+        String byCRLF = "\r\n\r\n";
+        try {
+            String[] decaptitated = request.split(byCRLF);
+            try {
+                String body = decaptitated[1];
+                for (int i = 2; i < (decaptitated.length); i++) {
+                    body = String.join(byCRLF, body, decaptitated[i]);
+                }
+                requestBody = body;
+            } catch (ArrayIndexOutOfBoundsException e) {}
+        } catch (NullPointerException e) {}
     }
 
     public static boolean illFormedRequest() {
@@ -80,15 +96,24 @@ public class Parser {
 
     public static byte[] post() {
         if (FileFridge.inStock(directory, requestedUrl)) {
-            FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(params));
+            FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(addAllParams()));
         }
         return get();
     }
 
     public static byte[] put() {
         FileFridge.deleteBytes(directory, requestedUrl);
-        FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(params));
+        FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(addAllParams()));
         return get();
+    }
+
+    public static String[] addAllParams() {
+        String[] all = new String[(params.length + 1)];
+        all[0] = requestBody;
+        for (int i = 1; i < all.length; i++) {
+            all[i] = params[i-1];
+        }
+        return all;
     }
 
     public static void resetParser() {
@@ -97,5 +122,6 @@ public class Parser {
         requestedUrl = emptyString;
         params = emptyArray;
         httpVersion = emptyString;
+        requestBody = emptyString;
     }
 }

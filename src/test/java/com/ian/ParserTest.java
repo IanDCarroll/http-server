@@ -1,5 +1,6 @@
 package com.ian;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -91,6 +92,24 @@ public class ParserTest {
         assertEquals("PUT", Parser.requestMethod);
         assertEquals("/basho", Parser.requestedUrl);
         assertEquals("HTTP/1.1", Parser.httpVersion);
+    }
+
+
+    @Test
+    public void setRequestBodySavesTheBodyOfTheRequestForReference() {
+        //GIVEN
+        String body = "ancient pond\n" +
+                "a frog jumps in\r\n\r\n" +
+                "sound of water";
+        String request = "PUT /basho HTTP/1.1\n" +
+                "content-type: text/plain\r\n\r\n" + body;
+        //WHEN
+        Parser.setRequestBody(request);
+        //THEN
+        String actual = Parser.requestBody;
+        Parser.resetParser();
+        assertEquals(body, actual);
+
     }
 
     @Test
@@ -209,7 +228,7 @@ public class ParserTest {
         //GIVEN
         String url = "/basho";
         String originalContent = "no sign to tell\n";
-        String[] additionalContent = {"in the cicada's cry",
+        String[] additionalContent = {"in the cicada's cry\n",
                                       "how it will soon die."};
         FileHelper.setFileBytes(directory, url, originalContent.getBytes());
         Parser.directory = directory;
@@ -221,7 +240,7 @@ public class ParserTest {
         String actualContent = new String(FileHelper.getFileBytes(directory, url));
         FileHelper.ensureDeletion(directory, url);
         Parser.resetParser();
-        assertEquals((originalContent + String.join("\n", additionalContent)), actualContent);
+        assertEquals((originalContent + String.join("", additionalContent)), actualContent);
     }
 
     @Test
@@ -237,6 +256,7 @@ public class ParserTest {
         FileHelper.ensureDeletion(directory, url);
         assertTrue(actualString.contains(expectedString));
     }
+
 
     @Test
     public void putOverwritesExistingFilesOnSuccessfulPUTRequest() {
@@ -257,7 +277,7 @@ public class ParserTest {
         //THEN
         String actualContent = new String(FileHelper.getFileBytes(directory, url));
         FileHelper.ensureDeletion(directory, url);
-        assertEquals(String.join("\n", replacementContent), actualContent);
+        assertEquals(String.join("", replacementContent), actualContent);
     }
 
     @Test
@@ -324,12 +344,26 @@ public class ParserTest {
         assertFalse(response7.contains(content2));
     }
 
+
+    @Test
+    public void addAllParamsAddsTheRequestBodyToTheParamsStringArray() {
+        //GIVEN
+        String[] expected = { "one fish", "two fish", "red fish", "blue fish"};
+        String[] params = {"two fish", "red fish", "blue fish"};
+        Parser.params = params;
+        Parser.requestBody = "one fish";
+        //WHEN
+        String[] actual = Parser.addAllParams();
+        //THEN
+        assertArrayEquals(expected, actual);
+    }
+
     @Test
     public void resetParserResetsAllPublicStaticVariables() {
         //GIVEN
         String emptyString = "";
         int emptyArrayLength = 0;
-        String oldCrustyRequest = "GET / HTTP/1.1";
+        String oldCrustyRequest = "GET /?theMoon=thePondsReflection HTTP/1.1\r\n\r\nfurther content";
         Parser.parse(oldCrustyRequest, directory);
         //WHEN
         Parser.resetParser();
@@ -339,5 +373,6 @@ public class ParserTest {
         assertEquals(emptyString, Parser.requestedUrl);
         assertEquals(emptyArrayLength, Parser.params.length);
         assertEquals(emptyString, Parser.httpVersion);
+        assertEquals(emptyString, Parser.requestBody);
     }
 }

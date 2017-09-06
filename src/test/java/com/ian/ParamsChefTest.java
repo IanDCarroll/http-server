@@ -15,8 +15,8 @@ public class ParamsChefTest {
 
     @Test
     public void plateParamsTransformsAStringArrayIntoAByteArray() {
-        byte[] expected = ("name = Sir Lancelot of Camelot\n" +
-                           "quest = To seek the Holy Grail\n" +
+        byte[] expected = ("name = Sir Lancelot of Camelot" +
+                           "quest = To seek the Holy Grail" +
                            "favorite-color = blue").getBytes();
         String[] given = {"name = Sir Lancelot of Camelot",
                           "quest = To seek the Holy Grail",

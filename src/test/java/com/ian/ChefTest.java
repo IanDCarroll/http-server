@@ -68,8 +68,7 @@ public class ChefTest {
     public void plateReturns404WithParamsIfOrderDoesNotExist() {
         String expected = "HTTP/1.1 404 Not Found" +
                 "\r\n\r\n" +
-                "looks = nice\n" +
-                "cost = not too expensive";
+                "looks = nicecost = not too expensive";
         String order = "/shrubbery";
         String[] params = {"looks = nice",
                            "cost = not too expensive"};
@@ -87,8 +86,7 @@ public class ChefTest {
                 "<title></title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<p>looks = nice\n" +
-                "cost = not too expensive</p>" +
+                "<p>looks = nicecost = not too expensive</p>" +
                 "<a href=\"/file1\">file1</a>\n" +
                 "<a href=\"/file2\">file2</a>\n" +
                 "<a href=\"/form\">form</a>\n" +
@@ -100,8 +98,7 @@ public class ChefTest {
                 "<a href=\"/text-file.txt\">text-file.txt</a>" +
                 "\n</body>" +
                 "\n</html>" +
-                "looks = nice\n" +
-                "cost = not too expensive";
+                "looks = nicecost = not too expensive";
         String order = "/";
         String[] params = {"looks = nice",
                            "cost = not too expensive"};

@@ -1,12 +1,11 @@
 package com.ian;
 
-import java.io.File;
-
 public class Chef {
     private static final byte[] crlf = "\r\n\r\n".getBytes();
     private static final byte[] ok = "HTTP/1.1 200 OK".getBytes();
     private static final byte[] notFound = "HTTP/1.1 404 Not Found".getBytes();
-    public static byte[] paramBytes = {};
+    private static final byte[] noBytes = {};
+    public static byte[] paramBytes = noBytes;
 
     public static byte[] plate(String directory, String order, String[] params) {
         paramBytes = ParamsChef.plateParams(params);
@@ -39,16 +38,22 @@ public class Chef {
     }
 
     public static String[] buildMenuBacking() {
+        String beginning = buildBeginning();
+        String end = "\n</body>\n</html>";
+        String[] backing = {beginning, end};
+        return backing;
+    }
+
+    public static String buildBeginning() {
         String beginning = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
                 "<title></title>\n" +
                 "</head>\n" +
                 "<body>\n";
-        String end =       "\n</body>" +
-                "\n</html>";
-        String[] backing = {beginning, end};
-        return backing;
+        String params = new String(paramBytes);
+        String paramsParagraph = "<p>" + params + "</p>";
+        return params.equals("") ? beginning : beginning + paramsParagraph;
     }
 
     public static String buildMenuContent(String directory, String order) {
@@ -63,14 +68,13 @@ public class Chef {
     public static byte[] cookOrder(String directory, String order) {
         byte[] raw_ingredients = FileFridge.pullBytes(directory, order);
         byte[] headers = HeadersChef.plateHeaders(directory, order);
-        byte[][] allBytes = { ok, headers, crlf, raw_ingredients, paramBytes };
+        byte[][] allBytes = { ok, headers, crlf, raw_ingredients };
         byte[] voila = LineCook.marinateBytes(allBytes);
         resetParamBytes();
         return voila;
     }
 
     public static void resetParamBytes() {
-        byte[] noBytes = {};
         paramBytes = noBytes;
     }
 }

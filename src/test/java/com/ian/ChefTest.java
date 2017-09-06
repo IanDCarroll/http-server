@@ -78,20 +78,6 @@ public class ChefTest {
     }
 
     @Test
-    public void plateReturnsFileContents() {
-        String expected = "HTTP/1.1 200 OK" +
-                          "\nContent-Length: 14" +
-                          "\nContent-Type: text/plain" +
-                          "\r\n\r\n" +
-                          "file1 contents" +
-                          "param1 = other contents";
-        String order = "/file1";
-        String[] params = {"param1 = other contents"};
-        String actual = new String(Chef.plate(directory, order, params));
-        assertEquals(expected, actual);
-    }
-
-    @Test
     public void searchMenuReturns200WithParamsIfOrderIsDirectory() {
         String expected = "HTTP/1.1 200 OK" +
                 "\r\n\r\n" +
@@ -101,6 +87,8 @@ public class ChefTest {
                 "<title></title>\n" +
                 "</head>\n" +
                 "<body>\n" +
+                "<p>looks = nice\n" +
+                "cost = not too expensive</p>" +
                 "<a href=\"/file1\">file1</a>\n" +
                 "<a href=\"/file2\">file2</a>\n" +
                 "<a href=\"/form\">form</a>\n" +

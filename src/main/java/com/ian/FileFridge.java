@@ -6,17 +6,15 @@ import java.nio.file.Paths;
 
 public class FileFridge {
 
-    public static boolean waste(String directory, String name) {
+    public static boolean deleteBytes(String directory, String name) {
         boolean success = false;
-        File file = new File(directory, name);
-        if (file.exists()) { success = file.delete(); }
+        boolean overwrite = false;
+        byte[] noBytes = "".getBytes();
+        if (inStock(directory, name)) {
+            writeToFile(directory, name, noBytes, overwrite);
+            success = true;
+        }
         return success;
-    }
-
-    public static boolean stock(String directory, String name) {
-        byte[] makeAnEmptyFile = {0};
-        pushBytes(directory, name, makeAnEmptyFile);
-        return inStock(directory, name);
     }
 
     public static boolean inStock(String directory, String name) {
@@ -26,6 +24,10 @@ public class FileFridge {
 
     public static void pushBytes(String directory, String name, byte[] toBeWritten) {
         boolean append = true;
+        writeToFile(directory, name, toBeWritten, append);
+    }
+
+    public static void writeToFile(String directory, String name, byte[] toBeWritten, boolean append) {
         File file = new File(directory, name);
         try {
             FileOutputStream outToFile = new FileOutputStream(file, append);
@@ -42,6 +44,11 @@ public class FileFridge {
             bytes = Files.readAllBytes(Paths.get(directory + name));
         } catch (IOException e) { System.out.println(); }
         return bytes;
+    }
+
+    public static String[] stockList(String directory, String name) {
+        File file = new File(directory, name);
+        return file.list();
     }
 
     public static boolean isBox(String directory, String name) {

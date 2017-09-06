@@ -1,66 +1,76 @@
 package com.ian;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Chef {
     private static final byte[] crlf = "\r\n\r\n".getBytes();
     private static final byte[] ok = "HTTP/1.1 200 OK".getBytes();
     private static final byte[] notFound = "HTTP/1.1 404 Not Found".getBytes();
-    public static byte[] params = {};
+    public static byte[] paramBytes = {};
 
-    public static byte[] plate(String directory, String[] order) {
-        params = ParamsChef.plateParams(order);
-        File entree = new File(directory, order[0]);
-        if (!FileFridge.inStock(directory, order[0])) {
+    public static byte[] plate(String directory, String order, String[] params) {
+        paramBytes = ParamsChef.plateParams(params);
+        if (!FileFridge.inStock(directory, order)) {
             return notOnTheMenu();
-        } else if (FileFridge.isBox(directory, order[0])) {
-            return menuDuJour(entree);
+        } else if (FileFridge.isBox(directory, order)) {
+            return menuDuJour(directory, order);
         } else {
-            return cookOrder(directory, order[0]);
+            return cookOrder(directory, order);
         }
     }
 
     public static byte[] notOnTheMenu() {
-        byte[][] allBytes = { notFound, crlf, params };
-        resetParams();
+        byte[][] allBytes = { notFound, crlf, paramBytes };
+        resetParamBytes();
         return LineCook.marinateBytes(allBytes);
     }
 
-    public static byte[] menuDuJour(File directory) {
-        String newLine = "\n";
+    public static byte[] menuDuJour(String directory, String order) {
+        byte[] menu = buildMenu(directory, order);
+        byte[][] allBytes = { ok, crlf, menu, paramBytes };
+        resetParamBytes();
+        return LineCook.marinateBytes(allBytes);
+    }
+
+    public static byte[] buildMenu(String directory, String order) {
+        String[] menuBacking = buildMenuBacking();
+        String menuContent = buildMenuContent(directory, order);
+        return String.join(menuContent, menuBacking).getBytes();
+    }
+
+    public static String[] buildMenuBacking() {
         String beginning = "<!DOCTYPE html>\n" +
-                           "<html>\n" +
-                           "<head>\n" +
-                           "<title></title>\n" +
-                           "</head>\n" +
-                           "<body>\n";
+                "<html>\n" +
+                "<head>\n" +
+                "<title></title>\n" +
+                "</head>\n" +
+                "<body>\n";
         String end =       "\n</body>" +
-                           "\n</html>";
-        String[] entrees = directory.list();
-        String[] menuBacking = {beginning, end};
+                "\n</html>";
+        String[] backing = {beginning, end};
+        return backing;
+    }
+
+    public static String buildMenuContent(String directory, String order) {
+        String newLine = "\n";
+        String[] entrees = FileFridge.stockList(directory, order);
         for (int i = 0; i < entrees.length; i++) {
             entrees[i] = "<a href=\"/" + entrees[i] + "\">" + entrees[i] + "</a>";
         }
-        String menuContent = String.join(newLine, entrees);
-        byte[] menu = String.join(menuContent, menuBacking).getBytes();
-        byte[][] allBytes = { ok, crlf, menu, params };
-        resetParams();
-        return LineCook.marinateBytes(allBytes);
+        return String.join(newLine, entrees);
     }
 
     public static byte[] cookOrder(String directory, String order) {
         byte[] raw_ingredients = FileFridge.pullBytes(directory, order);
         byte[] headers = HeadersChef.plateHeaders(directory, order);
-        byte[][] allBytes = { ok, headers, crlf, raw_ingredients, params };
+        byte[][] allBytes = { ok, headers, crlf, raw_ingredients, paramBytes };
         byte[] voila = LineCook.marinateBytes(allBytes);
-        resetParams();
+        resetParamBytes();
         return voila;
     }
 
-    public static void resetParams() {
-        params = new byte[0];
+    public static void resetParamBytes() {
+        byte[] noBytes = {};
+        paramBytes = noBytes;
     }
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -34,8 +35,9 @@ public class ChefTest {
                 "<a href=\"/text-file.txt\">text-file.txt</a>" +
                 "\n</body>" +
                 "\n</html>";
-        String[] order = {"/"};
-        String actual = new String(Chef.plate(directory, order));
+        String order = "/";
+        String[] params = {};
+        String actual = new String(Chef.plate(directory, order, params));
         assertEquals(expected, actual);
     }
 
@@ -46,8 +48,9 @@ public class ChefTest {
                 "\nContent-Type: text/plain" +
                 "\r\n\r\n" +
                 "file1 contents";
-        String[] order = {"/file1"};
-        String actual = new String(Chef.plate(directory, order));
+        String order = "/file1";
+        String[] params = {};
+        String actual = new String(Chef.plate(directory, order, params));
         assertEquals(expected, actual);
     }
 
@@ -55,8 +58,9 @@ public class ChefTest {
     public void plateReturns404IfOrderDoesNotExist() {
         String expected = "HTTP/1.1 404 Not Found" +
                 "\r\n\r\n";
-        String[] order = {"/the_holy_grail"};
-        String actual = new String(Chef.plate(directory, order));
+        String order = "/the_holy_grail";
+        String[] params = {};
+        String actual = new String(Chef.plate(directory, order, params));
         assertEquals( expected, actual);
     }
 
@@ -66,10 +70,10 @@ public class ChefTest {
                 "\r\n\r\n" +
                 "looks = nice\n" +
                 "cost = not too expensive";
-        String[] order = {"/shrubbery",
-                "looks = nice",
-                "cost = not too expensive"};
-        String actual = new String(Chef.plate(directory, order));
+        String order = "/shrubbery";
+        String[] params = {"looks = nice",
+                           "cost = not too expensive"};
+        String actual = new String(Chef.plate(directory, order, params));
         assertEquals( expected, actual);
     }
 
@@ -81,9 +85,9 @@ public class ChefTest {
                           "\r\n\r\n" +
                           "file1 contents" +
                           "param1 = other contents";
-        String[] order = {"/file1",
-                          "param1 = other contents"};
-        String actual = new String(Chef.plate(directory, order));
+        String order = "/file1";
+        String[] params = {"param1 = other contents"};
+        String actual = new String(Chef.plate(directory, order, params));
         assertEquals(expected, actual);
     }
 
@@ -110,16 +114,16 @@ public class ChefTest {
                 "\n</html>" +
                 "looks = nice\n" +
                 "cost = not too expensive";
-        String[] order = {"/",
-                "looks = nice",
-                "cost = not too expensive"};
-        String actual = new String(Chef.plate(directory, order));
+        String order = "/";
+        String[] params = {"looks = nice",
+                           "cost = not too expensive"};
+        String actual = new String(Chef.plate(directory, order, params));
         assertEquals( expected, actual);
     }
 
     @Test
     public void menuGivesAListingOfDirectoryContents() {
-        File file = new File(directory, "/");
+        String fileName = "/";
         String expected = "HTTP/1.1 200 OK" +
                 "\r\n\r\n" +
                 "<!DOCTYPE html>\n" +
@@ -139,7 +143,7 @@ public class ChefTest {
                 "<a href=\"/text-file.txt\">text-file.txt</a>" +
                 "\n</body>" +
                 "\n</html>";
-        String actual = new String(Chef.menuDuJour(file));
+        String actual = new String(Chef.menuDuJour(directory, fileName));
         assertEquals(expected, actual);
     }
 
@@ -155,10 +159,10 @@ public class ChefTest {
     }
 
     @Test
-    public void resetParamsResetsTheParamsToZeroBytes() {
-        byte[] expected = new byte[0];
-        Chef.params = "param = old crusty data".getBytes();
-        Chef.resetParams();
-        assertArrayEquals(expected, Chef.params);
+    public void resetParamBytesResetsTheParamsToZeroBytes() {
+        byte[] expected = {};
+        Chef.paramBytes = "param = old crusty data".getBytes();
+        Chef.resetParamBytes();
+        assertArrayEquals(expected, Chef.paramBytes);
     }
 }

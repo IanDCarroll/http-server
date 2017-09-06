@@ -1,5 +1,6 @@
 package com.ian;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -11,7 +12,7 @@ public class HeadersChefTest {
             System.getProperty("user.dir") + "/public";
 
     @Test
-    public void sousChefTypeReturnsContentType() {
+    public void headersChefTypeReturnsContentType() {
         String expected = "\nContent-Length: 14" +
                            "\nContent-Type: text/plain";
         String actual = new String(HeadersChef.plateHeaders(directory, "/file1"));
@@ -24,10 +25,10 @@ public class HeadersChefTest {
         assertEquals(expected, HeadersChef.plateContentType("text/plain"));
     }
 
-
     @Test
     public void plateContentLengthReturnsContentLength() {
-        String expected = "\nContent-Length: 42";
-        assertEquals(expected, HeadersChef.plateContentLength(42));
+        long length = FileFridge.size(directory, "/file1");
+        String expected = "\nContent-Length: 14";
+        assertEquals(expected, HeadersChef.plateContentLength(length));
     }
 }

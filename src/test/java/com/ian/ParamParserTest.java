@@ -1,6 +1,5 @@
 package com.ian;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -8,17 +7,17 @@ public class ParamParserTest {
     @Test
     public void parseURLReturnsAStringArrayWhenNotPassedParams() {
         String url = "/no-params-included";
-        String[] expected = {url};
-        String[] actual = ParamParser.parseUrl(url);
+        String[][] expected = {{url}, {}};
+        String[][] actual = ParamParser.parseUrl(url);
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void parseURLReturnsAStringArrayWithAPassedParam() {
         String url = "/one-param-included?name=Sir%20Lancelot%20of%20Camelot";
-        String[] expected = {"/one-param-included",
-                             "name = Sir Lancelot of Camelot"};
-        String[] actual = ParamParser.parseUrl(url);
+        String[][] expected = {{"/one-param-included"},
+                               {"name=Sir Lancelot of Camelot"}};
+        String[][] actual = ParamParser.parseUrl(url);
         assertArrayEquals(expected, actual);
     }
 
@@ -28,11 +27,11 @@ public class ParamParserTest {
                      "name=Sir%20Lancelot%20of%20Camelot&" +
                      "quest=To%20seek%20the%20Holy%20Grail&" +
                      "favorite-color=blue";
-        String[] expected = {"/one-param-included",
-                             "name = Sir Lancelot of Camelot",
-                             "quest = To seek the Holy Grail",
-                             "favorite-color = blue"};
-        String[] actual = ParamParser.parseUrl(url);
+        String[][] expected = {{"/one-param-included"},
+                               {"name=Sir Lancelot of Camelot",
+                                "quest=To seek the Holy Grail",
+                                "favorite-color=blue"}};
+        String[][] actual = ParamParser.parseUrl(url);
         assertArrayEquals(expected, actual);
     }
 
@@ -42,15 +41,15 @@ public class ParamParserTest {
                 "%2C%20%3D%2C%20!%3D%3B%20%2B%2C%20-%2C%20*%2C%20%26" +
                 "%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20" +
                 "%22is%20that%20all%22%3F&variable_2=stuff";
-        String[] expected = {"/parameters",
-                             "variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?",
-                             "variable_2 = stuff"};
-        String[] actual = ParamParser.parseUrl(url);
+        String[][] expected = {{"/parameters"},
+                               {"variable_1=Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: \"is that all\"?",
+                                "variable_2=stuff"}};
+        String[][] actual = ParamParser.parseUrl(url);
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void parseParamsReturnsEmptyStringArrayFromEmptyString() {
+    public void parseToUnsmushedParamsReturnsEmptyStringArrayFromEmptyString() {
         String[] expected = {};
         String params = "";
         String[] actual = ParamParser.parseParams(params);
@@ -58,10 +57,9 @@ public class ParamParserTest {
     }
 
     @Test
-    public void parseParamsReturnsAStringArrayOfParams() {
-        String[] expected = { "name = Slartibartfast",
-                              "occupation = Fjord Designer" };
-
+    public void parseParamsReturnsAStringArrayOfStillSmushedParams() {
+        String[] expected = { "name=Slartibartfast",
+                              "occupation=Fjord Designer" };
         String params = "name=Slartibartfast&occupation=Fjord%20Designer";
         String[] actual = ParamParser.parseParams(params);
         assertArrayEquals(expected, actual);

@@ -6,16 +6,17 @@ public class Parser {
     private static final String HEAD = "HEAD";
     private static final String POST = "POST";
     private static final String PUT = "PUT";
-    public static String directory = "";
-    public static String requestMethod = "";
-    public static String requestedURI = "";
-    public static String httpVersion = "";
-    public static String requestBody = "";
+    private static final String emptyString = "";
+    private static final String[] emptyArray = {};
+    public static String directory = emptyString;
+    public static String requestMethod = emptyString;
+    public static String requestedUrl = emptyString;
+    public static String[] params = emptyArray;
+    public static String httpVersion = emptyString;
 
     public static byte[] parse(String request, String serverDirectory) {
         setDirectory(serverDirectory);
         parseHead(request);
-        setRequestBody(request);
         return illFormedRequest() ? null : applyAppropriateMethod();
     }
 
@@ -28,29 +29,17 @@ public class Parser {
         try {
             String[] splitReq = request.split(byAnyWhiteSpace);
             requestMethod = splitReq[0];
-            requestedURI = splitReq[1];
+            String[][] parsedUrl = ParamParser.parseUrl(splitReq[1]);
+            requestedUrl = parsedUrl[0][0];
+            params = parsedUrl[1];
             httpVersion = splitReq[2];
         } catch (NullPointerException e) {
             resetParser();
         }
     }
 
-    public static void setRequestBody(String request) {
-        String byCRLF = "\r\n\r\n";
-        try {
-            String[] decaptitated = request.split(byCRLF);
-            try {
-                String body = decaptitated[1];
-                for (int i = 2; i < (decaptitated.length); i++) {
-                    body = String.join(byCRLF, body, decaptitated[i]);
-                }
-                requestBody = body;
-            } catch (ArrayIndexOutOfBoundsException e) {}
-        } catch (NullPointerException e) {}
-    }
-
     public static boolean illFormedRequest() {
-        return (requestMethod.isEmpty() || requestedURI.isEmpty() || httpVersion.isEmpty());
+        return (requestMethod.isEmpty() || requestedUrl.isEmpty() || httpVersion.isEmpty());
     }
 
     public static byte[] applyAppropriateMethod() {
@@ -65,14 +54,15 @@ public class Parser {
             response = post();
         } else if (requestMethod.equals(PUT)) {
             response = put();
-        } else { resetParser(); }
+        }
+        resetParser();
         return response;
     }
 
     public static byte[] delete() {
-        //make a name from the requestedURI
-        //delete any file that has that name
-        return get();
+        byte[] response = get();
+        FileFridge.deleteBytes(directory, requestedUrl);
+        return response;
     }
 
     public static byte[] head() {
@@ -83,26 +73,27 @@ public class Parser {
     }
 
      public static byte[] get() {
-        return Chef.plate(directory, ParamParser.parseUrl(requestedURI));
+        return Chef.plate(directory, requestedUrl, ParamParser.unSmushParams(params));
     }
 
     public static byte[] post() {
-        //get what's in the request body -DONE
-        //write it to the requestedURI file
+        if (FileFridge.inStock(directory, requestedUrl)) {
+            FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(params));
+        }
         return get();
     }
 
     public static byte[] put() {
-        // get what's in the request body -DONE
-        // make a name from the requestedURI
-        // create or overwrite a file with that name
+        FileFridge.deleteBytes(directory, requestedUrl);
+        FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(params));
         return get();
     }
 
     public static void resetParser() {
-        directory = "";
-        requestMethod = "";
-        requestedURI = "";
-        httpVersion = "";
+        directory = emptyString;
+        requestMethod = emptyString;
+        requestedUrl = emptyString;
+        params = emptyArray;
+        httpVersion = emptyString;
     }
 }

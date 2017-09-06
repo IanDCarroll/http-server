@@ -8,8 +8,8 @@ public class HeadersChef {
         return headers.getBytes();
     }
 
-    public static String plateContentLength(long bytes) {
-        return "\nContent-Length: " + String.valueOf(bytes);
+    public static String plateContentLength(long length) {
+        return "\nContent-Length: " + String.valueOf(length);
     }
 
     public static String plateContentType(String mediaType) {

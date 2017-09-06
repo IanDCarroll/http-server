@@ -1,8 +1,5 @@
 package com.ian;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 public class ParamParser {
     private static final String emptyString = "";
     private static final String paramsDelimiterRegex = "\\?";
@@ -11,7 +8,7 @@ public class ParamParser {
     private static final String assignmentOperator = "=";
     private static final String expandedAssignment = " = ";
 
-    public static String[] parseUrl(String url) {
+    public static String[][] parseUrl(String url) {
         String[] segregatedURL = url.split(paramsDelimiterRegex);
         String[] basicURL = { segregatedURL[0] };
         String rawParams = emptyString;
@@ -19,13 +16,13 @@ public class ParamParser {
             rawParams = segregatedURL[1];
         } catch (ArrayIndexOutOfBoundsException e) {}
         String[] params = parseParams(rawParams);
-        return Stream.concat(Arrays.stream(basicURL), Arrays.stream(params))
-                .toArray(String[]::new);
+        String[][] parsedUrl = {basicURL, params};
+        return parsedUrl;
     }
 
-    public static String [] parseParams(String params) {
+    public static String[] parseParams(String params) {
         String[] hexedParams =(params.equals(emptyString)) ? new String[0] :
-                unSmushParams(params.split(paramDelimiter));
+                params.split(paramDelimiter);
         String[] unHexedParams = new String[hexedParams.length];
         for (int i = 0; i < hexedParams.length; i++) {
             unHexedParams[i] = unHex(hexedParams[i]);

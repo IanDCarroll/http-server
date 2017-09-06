@@ -36,6 +36,7 @@ public class Server {
 
             while (theDiningRoomIsOpen) {
                 Socket garconDeCafe = maitreD.accept();
+                System.out.println("We get signal:");
                 Runnable garconRunnable = () -> provideTheFinestDiningExperience(garconDeCafe);
                 Thread garconThread = new Thread(garconRunnable);
                 garconThread.start();
@@ -45,17 +46,35 @@ public class Server {
 
     public void provideTheFinestDiningExperience(Socket garconDeCafe) {
         try {
-            BufferedReader activeListening =
-                    new BufferedReader(new InputStreamReader(garconDeCafe.getInputStream(), "UTF-8"));
             BufferedOutputStream senseOfUrgency =
                     new BufferedOutputStream(garconDeCafe.getOutputStream());
             try {
-                byte[] serverResponse = Parser.parse(activeListening.readLine(), directory);
+                String order = activeListening(garconDeCafe);
+                System.out.println(order);
+                byte[] serverResponse = Parser.parse(order, directory);
+                String soThenISaid = new String(serverResponse);
+                System.out.println("We send response:\n" + soThenISaid);
                 senseOfUrgency.write(serverResponse);
                 senseOfUrgency.flush();
-            } catch (NullPointerException e) { e.getMessage(); }
+            } catch (NullPointerException e) { System.out.println(e.getMessage()); }
             garconDeCafe.close();
-        } catch (IOException e) { e.getMessage(); }
+        } catch (IOException e) { System.out.println(e.getMessage()); }
+    }
+
+    public String activeListening(Socket garconDeCafe) {
+        int orderMax = 1000;
+        byte[] order = new byte[orderMax];
+        boolean done = false;
+        try {
+            try {
+                BufferedInputStream jotDownOrder = new BufferedInputStream(garconDeCafe.getInputStream());
+                int count;
+                while((count = jotDownOrder.read(order)) > 0) {
+                    return new String(order);
+                }
+            } catch (NullPointerException e) { System.out.println(e.getMessage()); }
+        }catch (IOException e) { System.out.println(e.getMessage()); }
+        return new String(order);
     }
 
     public void close() {

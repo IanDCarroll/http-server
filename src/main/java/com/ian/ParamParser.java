@@ -33,18 +33,17 @@ public class ParamParser {
     public static String unHex(String hexedParams) {
         String[] params = hexedParams.split(emptyString);
         StringBuilder unHexedParams = new StringBuilder();
-        String Delimiter = hexDelimiter;
         int lookForNextDelimiter = 2;
         int dontLookYet = 0;
         int ignoreCounter = lookForNextDelimiter;
         for (int i = 0; i < params.length; i++) {
-            if (params[i].equals(Delimiter)) {
+            if (params[i].equals(hexDelimiter)) {
                 String hex = params[i + 1] + params[i + 2];
                 unHexedParams.append(unHexChar(hex));
                 ignoreCounter = dontLookYet;
             } else if (ignoreCounter != lookForNextDelimiter) {
                 ignoreCounter ++;
-            }else {
+            } else {
                 unHexedParams.append(params[i]);
             }
         }
@@ -53,8 +52,8 @@ public class ParamParser {
 
     public static String unHexChar(String hex) {
         final int base = 16;
-        byte hexByte = Byte.parseByte(hex, base);
-        return new String(new byte[] {hexByte});
+        byte [] hexByte = { Byte.parseByte(hex, base) };
+        return new String(hexByte);
     }
 
     public static String[] unSmushParams(String[] smushedParams) {
@@ -66,16 +65,16 @@ public class ParamParser {
     }
 
     public static String unSmushParam(String smushedParam) {
-        String[] param = smushedParam.split(emptyString);
         StringBuilder unSmushedParam = new StringBuilder();
+        String[] param = smushedParam.split(emptyString);
         boolean foundAssignmentOperator = false;
         for (String letter : param) {
             if (foundAssignmentOperator) {
                 unSmushedParam.append(letter);
             } else {
                 String unSmushedLetter = unSmushLetter(letter);
-                unSmushedParam.append(unSmushedLetter);
                 foundAssignmentOperator = isThisIt(unSmushedLetter);
+                unSmushedParam.append(unSmushedLetter);
             }
         }
         return unSmushedParam.toString();

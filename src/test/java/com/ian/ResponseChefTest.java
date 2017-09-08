@@ -10,7 +10,7 @@ public class ResponseChefTest {
             System.getProperty("user.dir") + "/public";
 
     @Test
-    public void plateCallsMenuDuJourIfOrderIsADirectory() {
+    public void craftResponseCallsMenuDuJourIfOrderIsADirectory() {
         String expected = "HTTP/1.1 200 OK" +
                 "\r\n\r\n" +
                 "<!DOCTYPE html>\n" +
@@ -37,7 +37,7 @@ public class ResponseChefTest {
     }
 
     @Test
-    public void plateCallsCookOrderIfOrderIsAFile() {
+    public void craftResponseCallsCookOrderIfOrderIsAFile() {
         String expected = "HTTP/1.1 200 OK" +
                 "\nContent-Length: 14" +
                 "\nContent-Type: text/plain" +
@@ -50,7 +50,7 @@ public class ResponseChefTest {
     }
 
     @Test
-    public void plateReturns404IfOrderDoesNotExist() {
+    public void craftResponseReturns404IfOrderDoesNotExist() {
         String expected = "HTTP/1.1 404 Not Found" +
                 "\r\n\r\n";
         String order = "/the_holy_grail";
@@ -60,7 +60,7 @@ public class ResponseChefTest {
     }
 
     @Test
-    public void plateReturns404WithParamsIfOrderDoesNotExist() {
+    public void craftResponseReturns404WithParamsIfOrderDoesNotExist() {
         String expected = "HTTP/1.1 404 Not Found" +
                 "\r\n\r\n" +
                 "looks = nicecost = not too expensive";
@@ -69,6 +69,27 @@ public class ResponseChefTest {
                            "cost = not too expensive"};
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
         assertEquals( expected, actual);
+    }
+
+    @Test
+    public void craftResponseReturns418IfHTCPCPRequestsCoffee() {
+        String expected = "HTTP/1.1 418 I'm a teapot" +
+                "\r\n\r\n"+
+                "I'm a teapot";
+        String order = "/coffee";
+        String[] params = {};
+        String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        assertEquals( expected, actual);
+    }
+
+    @Test
+    public void craftResponseReturns200ifHTCPCPRequestsTea() {
+        String expected = "HTTP/1.1 200 OK" +
+                "\r\n\r\n";
+        String order = "/tea";
+        String[] params = {};
+        String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        assertEquals(expected, actual);
     }
 
     @Test

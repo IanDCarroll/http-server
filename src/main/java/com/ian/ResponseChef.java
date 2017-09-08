@@ -4,13 +4,14 @@ public class ResponseChef {
     private static final byte[] crlf = "\r\n\r\n".getBytes();
     private static final byte[] ok = "HTTP/1.1 200 OK".getBytes();
     private static final byte[] notFound = "HTTP/1.1 404 Not Found".getBytes();
+    private static final byte[] teaPot = "HTTP/1.1 418 I'm a teapot".getBytes();
     private static final byte[] noBytes = {};
     public static byte[] paramBytes = noBytes;
 
     public static byte[] craftResponse(String directory, String order, String[] params) {
         paramBytes = ParamsCook.craftParams(params);
         if (!FileStocker.inStock(directory, order)) {
-            return notOnTheMenu();
+            return notOnTheMenu(order);
         } else if (FileStocker.isBox(directory, order)) {
             return menuDuJour(directory, order);
         } else {
@@ -18,9 +19,15 @@ public class ResponseChef {
         }
     }
 
-    public static byte[] notOnTheMenu() {
+    public static byte[] notOnTheMenu(String order) {
         byte[][] allBytes = { notFound, crlf, paramBytes };
         resetParamBytes();
+        if (order.equals("/coffee")) {
+            allBytes[0] = teaPot;
+            allBytes[2] = "I'm a teapot".getBytes();
+        } else if (order.equals("/tea")) {
+            allBytes[0] = ok;
+        }
         return ByteArrayCook.concatenateByteArrays(allBytes);
     }
 

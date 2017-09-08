@@ -4,12 +4,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ParamsChefTest {
+public class ParamsCookTest {
     @Test
     public void plateParamsReturnsEmptyArrayWhenNoParamsPassed() {
         byte[] expected = {};
         String[] given = {};
-        byte[] actual = ParamsChef.plateParams(given);
+        byte[] actual = ParamsCook.craftParams(given);
         assertArrayEquals(expected, actual);
     }
 
@@ -21,7 +21,7 @@ public class ParamsChefTest {
         String[] given = {"name = Sir Lancelot of Camelot",
                           "quest = To seek the Holy Grail",
                           "favorite-color = blue"};
-        byte[] actual = ParamsChef.plateParams(given);
+        byte[] actual = ParamsCook.craftParams(given);
         assertArrayEquals(expected, actual);
     }
 }

@@ -110,22 +110,22 @@ public class ParamParserTest {
     }
 
     @Test
-    public  void unSmushParamsReturnsParamsWithSpacesAroundEqualsSign() {
+    public  void expandAssignmentOperatorsReturnsParamsWithSpacesAroundEqualsSign() {
         String[] expected = { "name = Sir Lancelot of Camelot",
                               "quest = To seek the Holy Grail",
                               "favorite-color = blue" };
         String[] given = { "name=Sir Lancelot of Camelot",
                            "quest=To seek the Holy Grail",
                            "favorite-color=blue" };
-        String[] actual = ParamParser.unSmushParams(given);
+        String[] actual = ParamParser.expandAssignmentOperators(given);
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public  void unSmushParamsIgnoresFurtherEqualsSigns() {
+    public  void expandAssignmentOperatorsIgnoresFurtherEqualsSigns() {
         String[] expected = { "name = Sir Lancelot => Camelot"};
         String[] given = { "name=Sir Lancelot => Camelot"};
-        String[] actual = ParamParser.unSmushParams(given);
+        String[] actual = ParamParser.expandAssignmentOperators(given);
         assertArrayEquals(expected, actual);
     }
 }

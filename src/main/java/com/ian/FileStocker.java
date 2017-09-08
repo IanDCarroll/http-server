@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class FileFridge {
+public class FileStocker {
 
     public static boolean deleteBytes(String directory, String name) {
         boolean success = false;

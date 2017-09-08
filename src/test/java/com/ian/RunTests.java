@@ -30,11 +30,11 @@ public class RunTests {
         unit = JUnitCore.runClasses(ServerTest.class,
                                     ParserTest.class,
                                     ParamParserTest.class,
-                                    ChefTest.class,
-                                    HeadersChefTest.class,
-                                    ParamsChefTest.class,
-                                    LineCookTest.class,
-                                    FileFridgeTest.class);
+                                    ResponseChefTest.class,
+                                    HeadersCookTest.class,
+                                    ParamsCookTest.class,
+                                    ByteArrayCookTest.class,
+                                    FileStockerTest.class);
     }
 
     private static void runIntegrationTests() {

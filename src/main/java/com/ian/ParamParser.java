@@ -56,35 +56,34 @@ public class ParamParser {
         return new String(hexByte);
     }
 
-    public static String[] unSmushParams(String[] smushedParams) {
-        String[] unSmushedParams = new String[smushedParams.length];
-        for (int i = 0; i < smushedParams.length; i++) {
-            unSmushedParams[i] = unSmushParam(smushedParams[i]);
+    public static String[] expandAssignmentOperators(String[] unexpandedParams) {
+        String[] expandedParams = new String[unexpandedParams.length];
+        for (int i = 0; i < unexpandedParams.length; i++) {
+            expandedParams[i] = expandOneAssignmentOperator(unexpandedParams[i]);
         }
-        return unSmushedParams;
+        return expandedParams;
     }
 
-    public static String unSmushParam(String smushedParam) {
-        StringBuilder unSmushedParam = new StringBuilder();
-        String[] param = smushedParam.split(emptyString);
+    public static String expandOneAssignmentOperator(String oneUnexpandedParam) {
+        StringBuilder oneExpandedParam = new StringBuilder();
+        String[] paramLetters = oneUnexpandedParam.split(emptyString);
         boolean foundAssignmentOperator = false;
-        for (String letter : param) {
+        for (String letter : paramLetters) {
             if (foundAssignmentOperator) {
-                unSmushedParam.append(letter);
+                oneExpandedParam.append(letter);
             } else {
-                String unSmushedLetter = unSmushLetter(letter);
-                foundAssignmentOperator = isThisIt(unSmushedLetter);
-                unSmushedParam.append(unSmushedLetter);
+                foundAssignmentOperator = thisIsTheAssignmentOperator(letter);
+                oneExpandedParam.append(expandIfAssignmentOperator(letter));
             }
         }
-        return unSmushedParam.toString();
+        return oneExpandedParam.toString();
     }
 
-    public static boolean isThisIt(String letter) {
-        return letter.equals(expandedAssignment);
+    public static String expandIfAssignmentOperator(String letter) {
+        return (thisIsTheAssignmentOperator(letter)) ? expandedAssignment : letter;
     }
 
-    public static String unSmushLetter(String letter) {
-        return (letter.equals(assignmentOperator)) ? expandedAssignment : letter;
+    public static boolean thisIsTheAssignmentOperator(String letter) {
+        return letter.equals(assignmentOperator);
     }
 }

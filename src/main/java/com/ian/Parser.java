@@ -79,7 +79,7 @@ public class Parser {
 
     public static byte[] delete() {
         byte[] response = get();
-        FileFridge.deleteBytes(directory, requestedUrl);
+        FileStocker.deleteBytes(directory, requestedUrl);
         return response;
     }
 
@@ -91,19 +91,19 @@ public class Parser {
     }
 
      public static byte[] get() {
-        return Chef.plate(directory, requestedUrl, ParamParser.unSmushParams(params));
+        return ResponseChef.craftResponse(directory, requestedUrl, ParamParser.expandAssignmentOperators(params));
     }
 
     public static byte[] post() {
-        if (FileFridge.inStock(directory, requestedUrl)) {
-            FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(addAllParams()));
+        if (FileStocker.inStock(directory, requestedUrl)) {
+            FileStocker.pushBytes(directory, requestedUrl, ParamsCook.craftParams(addAllParams()));
         }
         return get();
     }
 
     public static byte[] put() {
-        FileFridge.deleteBytes(directory, requestedUrl);
-        FileFridge.pushBytes(directory, requestedUrl, ParamsChef.plateParams(addAllParams()));
+        FileStocker.deleteBytes(directory, requestedUrl);
+        FileStocker.pushBytes(directory, requestedUrl, ParamsCook.craftParams(addAllParams()));
         return get();
     }
 

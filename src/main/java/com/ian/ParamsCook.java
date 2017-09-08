@@ -1,7 +1,7 @@
 package com.ian;
 
-public class ParamsChef {
-    public static byte[] plateParams(String[] params) {
+public class ParamsCook {
+    public static byte[] craftParams(String[] params) {
         String delimiter = "";
         return String.join(delimiter, params).getBytes();
     }

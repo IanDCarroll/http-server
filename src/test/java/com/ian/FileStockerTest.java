@@ -4,42 +4,42 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class FileFridgeTest {
+public class FileStockerTest {
     public static final String directory =
             System.getProperty("user.dir") + "/public";
 
     @Test
     public void inStockReturnsTrueIfTheFileExists() {
         boolean expected = true;
-        boolean actual = FileFridge.inStock(directory, "/file1");
+        boolean actual = FileStocker.inStock(directory, "/file1");
         assertEquals(expected, actual);
     }
 
     @Test
     public void inStockReturnsFalseIfTheFileDoesNotExist() {
         boolean expected = false;
-        boolean actual = FileFridge.inStock(directory, "/the-lost-city-of-el-dorado");
+        boolean actual = FileStocker.inStock(directory, "/the-lost-city-of-el-dorado");
         assertEquals(expected, actual);
     }
 
     @Test
     public void isBoxReturnsTrueIfTheFileIsADirectory() {
         boolean expected = true;
-        boolean actual = FileFridge.isBox(directory, "/");
+        boolean actual = FileStocker.isBox(directory, "/");
         assertEquals(expected, actual);
     }
 
     @Test
     public void isBoxReturnsFalseIfTheFileIsNotADirectory() {
         boolean expected = false;
-        boolean actual = FileFridge.isBox(directory, "/file1");
+        boolean actual = FileStocker.isBox(directory, "/file1");
         assertEquals(expected, actual);
     }
 
     @Test
     public void pullBytesReturnsAByteArrayOfTheFileContents() {
         byte[] expected = "file1 contents".getBytes();
-        byte[] actual = FileFridge.pullBytes(directory, "/file1");
+        byte[] actual = FileStocker.pullBytes(directory, "/file1");
         assertArrayEquals(expected, actual);
     }
 
@@ -47,7 +47,7 @@ public class FileFridgeTest {
     public void pushByteWritesAByteArrayToAnEmptyFile() {
         String fileName = "/empty-file";
         byte[] toBeWritten = "lacuna".getBytes();
-        FileFridge.pushBytes(directory, fileName, toBeWritten);
+        FileStocker.pushBytes(directory, fileName, toBeWritten);
         byte[] expected = toBeWritten;
         byte[] actual = FileHelper.getFileBytes(directory, fileName);
         FileHelper.ensureDeletion(directory, fileName);
@@ -62,7 +62,7 @@ public class FileFridgeTest {
         byte[] expected = (startingContents + toBeAppended).getBytes();
 
         FileHelper.setFileBytes(directory, fileName, startingContents.getBytes());
-        FileFridge.pushBytes(directory, fileName, toBeAppended.getBytes());
+        FileStocker.pushBytes(directory, fileName, toBeAppended.getBytes());
         byte[] actual = FileHelper.getFileBytes(directory, fileName);
 
         FileHelper.ensureDeletion(directory, fileName);
@@ -71,7 +71,7 @@ public class FileFridgeTest {
     @Test
     public void sizeReturnsTheNUmberOfBytesTheFIleContains() {
         long expected = 14;
-        long actual = FileFridge.size(directory, "/file1");
+        long actual = FileStocker.size(directory, "/file1");
         assertEquals(expected, actual);
     }
 
@@ -81,10 +81,10 @@ public class FileFridgeTest {
         String jpeg = "image/jpeg";
         String gif = "image/gif";
         String png = "image/png";
-        String actualText = FileFridge.type(directory, "/file1");
-        String actualJpeg = FileFridge.type(directory, "/image.jpeg");
-        String actualGif = FileFridge.type(directory, "/image.gif");
-        String actualPng = FileFridge.type(directory, "/image.png");
+        String actualText = FileStocker.type(directory, "/file1");
+        String actualJpeg = FileStocker.type(directory, "/image.jpeg");
+        String actualGif = FileStocker.type(directory, "/image.gif");
+        String actualPng = FileStocker.type(directory, "/image.png");
         assertEquals(text, actualText);
         assertEquals(jpeg, actualJpeg);
         assertEquals(gif, actualGif);
@@ -97,7 +97,7 @@ public class FileFridgeTest {
         boolean expected = true;
         byte[] empty = {0};
         FileHelper.setFileBytes(directory, fileName, empty);
-        boolean actual = FileFridge.deleteBytes(directory, fileName);
+        boolean actual = FileStocker.deleteBytes(directory, fileName);
         FileHelper.ensureDeletion(directory, fileName);
         assertEquals(expected, actual);
     }

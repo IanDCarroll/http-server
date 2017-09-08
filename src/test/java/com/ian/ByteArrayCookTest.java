@@ -1,11 +1,10 @@
 package com.ian;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class LineCookTest {
+public class ByteArrayCookTest {
     @Test
     public void marinateBytesConcatenatesByteArrays() {
         String expected = "Shall I compare thee to a summer’s day?\nThou art more lovely and more temperate.\nRough " +
@@ -32,7 +31,7 @@ public class LineCookTest {
         byte[] lineE = "\tSo long lives this, and this gives life to the.".getBytes();
         byte[][] allInputs = { line1, line2, line3, line4, line5, line6, line7,
                                line8, line9, lineA, lineB, lineC, lineD, lineE };
-        String actual = new String(LineCook.marinateBytes(allInputs));
+        String actual = new String(ByteArrayCook.concatenateByteArrays(allInputs));
         assertEquals(expected, actual);
     }
 
@@ -44,7 +43,7 @@ public class LineCookTest {
         byte[] line4 = "And darkly bright are bright in dark directed.".getBytes();
         byte[][] allInputs = { line1, line2, line3, line4 };
         int expected = line1.length + line2.length + line3.length + line4.length;
-        int actual = LineCook.getRightSizedPot(allInputs);
+        int actual = ByteArrayCook.getRightSizedPot(allInputs);
         assertEquals(expected, actual);
     }
 }

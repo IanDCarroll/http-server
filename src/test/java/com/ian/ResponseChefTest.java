@@ -3,14 +3,9 @@ package com.ian;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.File;
-
-public class ChefTest {
+public class ResponseChefTest {
     public static final String directory =
             System.getProperty("user.dir") + "/public";
 
@@ -37,7 +32,7 @@ public class ChefTest {
                 "\n</html>";
         String order = "/";
         String[] params = {};
-        String actual = new String(Chef.plate(directory, order, params));
+        String actual = new String(ResponseChef.craftResponse(directory, order, params));
         assertEquals(expected, actual);
     }
 
@@ -50,7 +45,7 @@ public class ChefTest {
                 "file1 contents";
         String order = "/file1";
         String[] params = {};
-        String actual = new String(Chef.plate(directory, order, params));
+        String actual = new String(ResponseChef.craftResponse(directory, order, params));
         assertEquals(expected, actual);
     }
 
@@ -60,7 +55,7 @@ public class ChefTest {
                 "\r\n\r\n";
         String order = "/the_holy_grail";
         String[] params = {};
-        String actual = new String(Chef.plate(directory, order, params));
+        String actual = new String(ResponseChef.craftResponse(directory, order, params));
         assertEquals( expected, actual);
     }
 
@@ -72,7 +67,7 @@ public class ChefTest {
         String order = "/shrubbery";
         String[] params = {"looks = nice",
                            "cost = not too expensive"};
-        String actual = new String(Chef.plate(directory, order, params));
+        String actual = new String(ResponseChef.craftResponse(directory, order, params));
         assertEquals( expected, actual);
     }
 
@@ -102,7 +97,7 @@ public class ChefTest {
         String order = "/";
         String[] params = {"looks = nice",
                            "cost = not too expensive"};
-        String actual = new String(Chef.plate(directory, order, params));
+        String actual = new String(ResponseChef.craftResponse(directory, order, params));
         assertEquals( expected, actual);
     }
 
@@ -128,7 +123,7 @@ public class ChefTest {
                 "<a href=\"/text-file.txt\">text-file.txt</a>" +
                 "\n</body>" +
                 "\n</html>";
-        String actual = new String(Chef.menuDuJour(directory, fileName));
+        String actual = new String(ResponseChef.menuDuJour(directory, fileName));
         assertEquals(expected, actual);
     }
 
@@ -139,15 +134,15 @@ public class ChefTest {
                 "\nContent-Type: text/plain" +
                 "\r\n\r\n" +
                 "file1 contents";
-        String actual = new String(Chef.cookOrder(directory, "/file1"));
+        String actual = new String(ResponseChef.cookOrder(directory, "/file1"));
         assertEquals(expected, actual);
     }
 
     @Test
     public void resetParamBytesResetsTheParamsToZeroBytes() {
         byte[] expected = {};
-        Chef.paramBytes = "param = old crusty data".getBytes();
-        Chef.resetParamBytes();
-        assertArrayEquals(expected, Chef.paramBytes);
+        ResponseChef.paramBytes = "param = old crusty data".getBytes();
+        ResponseChef.resetParamBytes();
+        assertArrayEquals(expected, ResponseChef.paramBytes);
     }
 }

@@ -1,6 +1,7 @@
 package com.ian;
 
 public class SuccessCook {
-    //Servant to the disembodied Sous Chef
-    //Responsible for 2XX response headers
+    public static byte[] craft2XXResponse() {
+        return "HTTP/1.1 200 OK".getBytes();
+    }
 }

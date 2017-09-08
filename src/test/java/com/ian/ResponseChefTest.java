@@ -83,7 +83,7 @@ public class ResponseChefTest {
     }
 
     @Test
-    public void craftResponseReturns200ifHTCPCPRequestsTea() {
+    public void craftResponseReturns200IfHTCPCPRequestsTea() {
         String expected = "HTTP/1.1 200 OK" +
                 "\r\n\r\n";
         String order = "/tea";

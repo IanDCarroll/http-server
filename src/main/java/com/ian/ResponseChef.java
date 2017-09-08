@@ -1,6 +1,12 @@
 package com.ian;
 
 public class ResponseChef {
+    // refactor plan:
+    // Responsible for assembling the requested entree
+    // Depends upon the Disembodied Sous Chef for the header
+    // Depends upon the Corpulent Sous Chef for the body
+    // Depends upon the Byte Array Cook to combine the two
+
     private static final byte[] crlf = "\r\n\r\n".getBytes();
     private static final byte[] ok = "HTTP/1.1 200 OK".getBytes();
     private static final byte[] notFound = "HTTP/1.1 404 Not Found".getBytes();

@@ -17,7 +17,7 @@ public class HeadersCook {
     }
 
     public static String type(String directory, String name) {
-        return FileStocker.isBox(directory, name) ? "text/html" : fileType(name);
+        return FileStocker.isDir(directory, name) ? "text/html" : fileType(name);
     }
 
     public static String fileType(String name) {

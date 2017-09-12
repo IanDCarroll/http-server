@@ -13,7 +13,7 @@ public class CorpulentSousChef {
             responseBody = HTCPCPResponse; }
         else if (!FileStocker.inStock(directory, request)) {
             responseBody = personallyApologize(params);
-        } else if (FileStocker.isBox(directory, request)) {
+        } else if (FileStocker.isDir(directory, request)) {
             responseBody = DirectoryCook.craftResponseLinks(directory, request, params);
         } else {
             responseBody = ContentCook.craftContents(directory, request);

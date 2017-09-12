@@ -25,14 +25,14 @@ public class FileStockerTest {
     @Test
     public void isBoxReturnsTrueIfTheFileIsADirectory() {
         boolean expected = true;
-        boolean actual = FileStocker.isBox(directory, "/");
+        boolean actual = FileStocker.isDir(directory, "/");
         assertEquals(expected, actual);
     }
 
     @Test
     public void isBoxReturnsFalseIfTheFileIsNotADirectory() {
         boolean expected = false;
-        boolean actual = FileStocker.isBox(directory, "/file1");
+        boolean actual = FileStocker.isDir(directory, "/file1");
         assertEquals(expected, actual);
     }
 
@@ -77,12 +77,16 @@ public class FileStockerTest {
 
     @Test
     public void deleteBytesSetsAFileToZeroBytes() {
+        //GIVEN
         String fileName = "/the-salmon-mousse";
-        boolean expected = true;
-        byte[] empty = {0};
-        FileHelper.setFileBytes(directory, fileName, empty);
-        boolean actual = FileStocker.deleteBytes(directory, fileName);
+        byte[] expected = "".getBytes();
+        byte[] content = "this is content".getBytes();
+        FileHelper.setFileBytes(directory, fileName, content);
+        //WHEN
+        FileStocker.deleteBytes(directory, fileName);
+        byte[] actual = FileHelper.getFileBytes(directory, fileName);
+        //THEN
         FileHelper.ensureDeletion(directory, fileName);
-        assertEquals(expected, actual);
+        assertEquals(new String(expected), new String(actual));
     }
 }

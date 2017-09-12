@@ -6,15 +6,12 @@ import java.nio.file.Paths;
 
 public class FileStocker {
 
-    public static boolean deleteBytes(String directory, String name) {
-        boolean success = false;
+    public static void deleteBytes(String directory, String name) {
         boolean overwrite = false;
         byte[] noBytes = "".getBytes();
         if (inStock(directory, name)) {
             writeToFile(directory, name, noBytes, overwrite);
-            success = true;
         }
-        return success;
     }
 
     public static boolean inStock(String directory, String name) {
@@ -51,7 +48,7 @@ public class FileStocker {
         return file.list();
     }
 
-    public static boolean isBox(String directory, String name) {
+    public static boolean isDir(String directory, String name) {
         File file = new File(directory, name);
         return file.isDirectory();
     }

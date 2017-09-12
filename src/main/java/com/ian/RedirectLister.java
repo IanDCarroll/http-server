@@ -1,20 +1,25 @@
 package com.ian;
 
-import java.util.stream.Stream;
+import java.util.HashMap;
 
 public class RedirectLister {
-    private static String[] redirectFrom = { "/redirect" };
-    private static String[] redirectTo = { "/" };
+    private static HashMap<String, String> redirectMap;
+    static {
+        redirectMap = new HashMap<>();
+        redirectMap.put("/redirect", "/");
+    }
 
     public static boolean checkRedirect(String url) {
-        return Stream.of(redirectFrom).anyMatch(x -> x.equals(url));
+        for (String key: redirectMap.keySet()) {
+            if (key.equals(url)) { return true; }
+        }
+        return false;
     }
 
     public static String getRedirectionUrl(String url) {
-        String redirection = url;
-        for (int i = 0; i < redirectFrom.length; i++) {
-            if (redirectFrom[i].equals(url)) { redirection = redirectTo[i]; }
+        for (String key: redirectMap.keySet()) {
+            if (key.equals(url)) { return redirectMap.get(key); }
         }
-        return redirection;
+        return url;
     }
 }

@@ -32,10 +32,14 @@ public class RunTests {
                                     ParamParserTest.class,
                                     ResponseChefTest.class,
                                     DisembodiedSousChefTest.class,
+                                    CorpulentSousChefTest.class,
                                     SuccessCookTest.class,
                                     ClientErrorCookTest.class,
                                     HeadersCookTest.class,
                                     ParamsCookTest.class,
+                                    ContentCookTest.class,
+                                    DirectoryCookTest.class,
+                                    HTCPCPCheckerTest.class,
                                     ByteArrayCookTest.class,
                                     FileStockerTest.class);
     }

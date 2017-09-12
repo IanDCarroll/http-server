@@ -9,13 +9,50 @@ public class DisembodiedSousChefTest {
             System.getProperty("user.dir") + "/public";
 
     @Test
-    public void craftResponseHeadReturnsAResponseHead() {
+    public void craftResponseHeadReturnsA200ResponseHeadWhenRequestFound() {
+        byte[] body = "file1 contents".getBytes();
         byte[] expected = ("HTTP/1.1 200 OK" +
                 "\nContent-Length: 14" +
                 "\nContent-Type: text/plain" +
                 "\r\n\r\n").getBytes();
         String request = "/file1";
-        byte[] actual = DisembodiedSousChef.craftResponseHead(directory, request);
+        byte[] actual = DisembodiedSousChef.craftResponseHead(directory, request, body);
+        assertEquals(new String(expected), new String(actual));
+    }
+
+    @Test
+    public void craftResponseHeadReturnsA404ResponseHeadWhenRequestNotFound() {
+        byte[] body = {};
+        byte[] expected = ("HTTP/1.1 404 Not Found\n" +
+                "Content-Length: 0\n" +
+                "Content-Type: text/plain" +
+                "\r\n\r\n").getBytes();
+        String request = "/not-found";
+        byte[] actual = DisembodiedSousChef.craftResponseHead(directory, request, body);
+        assertEquals(new String(expected), new String(actual));
+    }
+
+    @Test
+    public void craftResponseHeadReturnsA200ResponseHeadForTea() {
+        byte[] body = "I'm a teapot.".getBytes();
+        byte[] expected = ("HTTP/1.1 200 OK" +
+                "\nContent-Length: 13" +
+                "\nContent-Type: text/plain" +
+                "\r\n\r\n").getBytes();
+        String request = "/tea";
+        byte[] actual = DisembodiedSousChef.craftResponseHead(directory, request, body);
+        assertEquals(new String(expected), new String(actual));
+    }
+
+    @Test
+    public void craftResponseHeadReturnsA418ResponseHeadForCoffee() {
+        byte[] body = "I'm a teapot.".getBytes();
+        byte[] expected = ("HTTP/1.1 418 I'm a teapot." +
+                "\nContent-Length: 13" +
+                "\nContent-Type: text/plain" +
+                "\r\n\r\n").getBytes();
+        String request = "/coffee";
+        byte[] actual = DisembodiedSousChef.craftResponseHead(directory, request, body);
         assertEquals(new String(expected), new String(actual));
     }
 }

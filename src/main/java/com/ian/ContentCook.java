@@ -1,6 +1,7 @@
 package com.ian;
 
 public class ContentCook {
-    // servant to the Corpulent Sous Chef
-    // responsible for crafting the contents of files requested
+    public static byte[] craftContents(String directory, String request) {
+        return FileStocker.pullBytes(directory, request);
+    }
 }

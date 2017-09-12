@@ -76,22 +76,6 @@ public class FileStockerTest {
     }
 
     @Test
-    public void typeReturnsTheMediaTypeOfTheFile() {
-        String text = "text/plain";
-        String jpeg = "image/jpeg";
-        String gif = "image/gif";
-        String png = "image/png";
-        String actualText = FileStocker.type(directory, "/file1");
-        String actualJpeg = FileStocker.type(directory, "/image.jpeg");
-        String actualGif = FileStocker.type(directory, "/image.gif");
-        String actualPng = FileStocker.type(directory, "/image.png");
-        assertEquals(text, actualText);
-        assertEquals(jpeg, actualJpeg);
-        assertEquals(gif, actualGif);
-        assertEquals(png, actualPng);
-    }
-
-    @Test
     public void deleteBytesSetsAFileToZeroBytes() {
         String fileName = "/the-salmon-mousse";
         boolean expected = true;

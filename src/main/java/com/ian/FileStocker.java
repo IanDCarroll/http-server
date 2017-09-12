@@ -60,21 +60,4 @@ public class FileStocker {
         File file = new File(directory, name);
         return file.length();
     }
-
-    public static String type(String directory, String name) {
-        String byFileTypeDelimiter = "\\.";
-        File file = new File(directory, name);
-        String type = "text/plain";
-        String fileName = file.getName();
-        String[] fileParts = fileName.split(byFileTypeDelimiter);
-        String lastPart = fileParts[fileParts.length -1];
-        if (lastPart.equals("jpeg")) {
-            type = "image/jpeg";
-        } else if (lastPart.equals("gif")) {
-            type = "image/gif";
-        } else if (lastPart.equals("png")) {
-            type = "image/png";
-        }
-        return type;
-    }
 }

@@ -91,7 +91,7 @@ public class Parser {
     }
 
      public static byte[] get() {
-        return ResponseChef.craftResponse(directory, requestedUrl, ParamParser.expandAssignmentOperators(params));
+        return ResponseChef.craftResponse(directory, requestedUrl, params);
     }
 
     public static byte[] post() {

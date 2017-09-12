@@ -9,25 +9,33 @@ public class HeadersCookTest {
             System.getProperty("user.dir") + "/public";
 
     @Test
-    public void headersChefTypeReturnsContentType() {
+    public void craftStandardHeadersReturnsContentLengthAndType() {
         byte[] body = "file1 contents".getBytes();
         String expected = "\nContent-Length: 14" +
                            "\nContent-Type: text/plain";
-        String actual = new String(HeadersCook.craftHeaders(directory, "/file1", body));
+        String actual = new String(HeadersCook.craftStandardHeaders(directory, "/file1", body));
         assertEquals(expected, actual);
     }
 
     @Test
-    public void plateContentTypeReturnsContentTypeTextPlainAsDefault() {
+    public void craftContentTypeReturnsContentTypeTextPlainAsDefault() {
         String expected = "\nContent-Type: text/plain";
         assertEquals(expected, HeadersCook.craftContentType(directory, "text/plain"));
     }
 
     @Test
-    public void plateContentLengthReturnsContentLength() {
+    public void craftContentLengthReturnsContentLength() {
         byte [] body = "file1 contents".getBytes();
         String expected = "\nContent-Length: 14";
         assertEquals(expected, HeadersCook.craftContentLength(body));
+    }
+
+    @Test
+    public void craftLocationReturnsTheURLToRedirect() {
+        String url = "/redirect";
+        String expected = "\nLocation: /";
+        String actual = HeadersCook.craftLocation(url);
+        assertEquals(expected, actual);
     }
 
     @Test

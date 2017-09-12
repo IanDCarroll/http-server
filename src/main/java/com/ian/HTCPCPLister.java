@@ -1,6 +1,6 @@
 package com.ian;
 
-public class HTCPCPChecker {
+public class HTCPCPLister {
     public static boolean check(String request) {
         return checkCoffee(request) || checkTea(request);
     }

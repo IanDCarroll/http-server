@@ -9,7 +9,7 @@ public class CorpulentSousChef {
 
     public static byte[] craftResponseBody(String directory, String request, String[] params) {
         byte[] responseBody;
-        if (HTCPCPChecker.check(request)) {
+        if (HTCPCPLister.check(request)) {
             responseBody = HTCPCPResponse; }
         else if (!FileStocker.inStock(directory, request)) {
             responseBody = personallyApologize(params);

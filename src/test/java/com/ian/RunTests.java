@@ -39,7 +39,8 @@ public class RunTests {
                                     ParamsCookTest.class,
                                     ContentCookTest.class,
                                     DirectoryCookTest.class,
-                                    HTCPCPCheckerTest.class,
+                                    HTCPCPListerTest.class,
+                                    RedirectListerTest.class,
                                     ByteArrayCookTest.class,
                                     FileStockerTest.class);
     }

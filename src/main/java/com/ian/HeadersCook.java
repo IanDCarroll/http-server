@@ -1,7 +1,7 @@
 package com.ian;
 
 public class HeadersCook {
-    public static byte[] craftHeaders(String directory, String name, byte[] body) {
+    public static byte[] craftStandardHeaders(String directory, String name, byte[] body) {
         String contentLength = craftContentLength(body);
         String contentType = craftContentType(directory, name);
         String headers = contentLength + contentType;
@@ -14,6 +14,10 @@ public class HeadersCook {
 
     public static String craftContentType(String directory, String name) {
         return "\nContent-Type: " + type(directory, name);
+    }
+
+    public static String craftLocation(String url) {
+        return "\nLocation: " + RedirectLister.getRedirectionUrl(url);
     }
 
     public static String type(String directory, String name) {

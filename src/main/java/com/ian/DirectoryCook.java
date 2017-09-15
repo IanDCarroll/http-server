@@ -43,7 +43,7 @@ public class DirectoryCook {
     }
 
     public static String[]formatParams(String[] params) {
-        params = ParamParser.expandAssignmentOperators(params);
+        params = AssignmentParser.expandAssignmentOperators(params);
         for (int i = 0; i < params.length; i++) {
             params[i] = formatParam(params[i]);
         }

@@ -27,7 +27,7 @@ public class CorpulentSousChef {
 
     public static byte[] apologyPlus(String[] params) {
         byte[] paramBytes = ParamsCook.craftParams(
-                ParamParser.expandAssignmentOperators(params));
+                AssignmentParser.expandAssignmentOperators(params));
         byte[][] allApologies = { personalApology, paramBytes };
         return ByteArrayCook.concatenateByteArrays(allApologies);
     }

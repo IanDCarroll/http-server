@@ -75,7 +75,7 @@ public class Server {
                     new BufferedOutputStream(garconDeCafe.getOutputStream());
             try {
                 String order = activeListening(garconDeCafe);
-                byte[] serverResponse = Parser.parse(order, directory);
+                byte[] serverResponse = Methodizer.takeOrder(directory, order);
                 senseOfUrgency.write(serverResponse);
                 senseOfUrgency.flush();
             } catch (NullPointerException e) { System.out.println(e.getMessage()); }

@@ -20,9 +20,7 @@ public class IntegrationTest {
     }
 
     @AfterClass
-    public static void tearDown() {
-        server.close();
-    }
+    public static void tearDown() { server.close(); }
 
     @Test
     public void clientSocketGetsHTTP200ResponseWhenRootIsRequested() {

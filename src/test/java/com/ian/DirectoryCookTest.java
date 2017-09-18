@@ -25,6 +25,7 @@ public class DirectoryCookTest {
                         "<a href=\"/image.gif\">image.gif</a>\n" +
                         "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
                         "<a href=\"/image.png\">image.png</a>\n" +
+                        "<a href=\"/logs\">logs</a>\n" +
                         "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
                         "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
                         "<a href=\"/text-file.txt\">text-file.txt</a>" +
@@ -51,6 +52,7 @@ public class DirectoryCookTest {
                         "<a href=\"/image.gif\">image.gif</a>\n" +
                         "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
                         "<a href=\"/image.png\">image.png</a>\n" +
+                        "<a href=\"/logs\">logs</a>\n" +
                         "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
                         "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
                         "<a href=\"/text-file.txt\">text-file.txt</a>\n" +

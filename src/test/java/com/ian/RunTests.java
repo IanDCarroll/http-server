@@ -31,6 +31,7 @@ public class RunTests {
                                     MethodizerTest.class,
                                     LogKeeperTest.class,
                                     ParserTest.class,
+                                    HeadersParserTest.class,
                                     StartLineParserTest.class,
                                     SplitsParserTest.class,
                                     ParamsParserTest.class,

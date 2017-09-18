@@ -6,6 +6,7 @@ import java.io.*;
 public class Server {
     public int port = 5000;
     public String directory = generateDefaultDirectory();
+    private String log = "/logs";
     private ServerSocket maitreD;
     public boolean theDiningRoomIsOpen = true;
 
@@ -57,16 +58,28 @@ public class Server {
     public void serve() {
 
         try {
-            maitreD = new ServerSocket(port);
-            synchronized (this) { notify(); }
+            wakeTheMaitreD();
+        } catch (IOException e) {
+            System.out.println("IOException in Server.serve()\n" +
+                    "Check if port "+ String.valueOf(port) +" is already in use.");
+        }
+    }
 
-            while (theDiningRoomIsOpen) {
-                Socket garconDeCafe = maitreD.accept();
-                Runnable garconRunnable = () -> provideTheFinestDiningExperience(garconDeCafe);
-                Thread garconThread = new Thread(garconRunnable);
-                garconThread.start();
-            }
-        } catch (IOException e) { e.getMessage(); }
+    public void wakeTheMaitreD() throws IOException {
+        maitreD = new ServerSocket(port);
+        synchronized (this) { notify(); }
+        try {
+            openTheDiningRoom();
+        } catch (SocketException e) {}
+    }
+
+    public void openTheDiningRoom() throws IOException {
+        while (theDiningRoomIsOpen) {
+            Socket garconDeCafe = maitreD.accept();
+            Runnable garconRunnable = () -> provideTheFinestDiningExperience(garconDeCafe);
+            Thread garconThread = new Thread(garconRunnable);
+            garconThread.start();
+        }
     }
 
     public void provideTheFinestDiningExperience(Socket garconDeCafe) {
@@ -74,13 +87,13 @@ public class Server {
             BufferedOutputStream senseOfUrgency =
                     new BufferedOutputStream(garconDeCafe.getOutputStream());
             try {
-                String order = activeListening(garconDeCafe);
+                String order = LogKeeper.logRequest(directory, log, activeListening(garconDeCafe));
                 byte[] serverResponse = Methodizer.takeOrder(directory, order);
                 senseOfUrgency.write(serverResponse);
                 senseOfUrgency.flush();
-            } catch (NullPointerException e) { System.out.println(e.getMessage()); }
+            } catch (NullPointerException e) { System.out.println("NullPointer in Server.provide()"); }
             garconDeCafe.close();
-        } catch (IOException e) { System.out.println(e.getMessage()); }
+        } catch (IOException e) { System.out.println("IOException in Server.provide()"); }
     }
 
     public String activeListening(Socket garconDeCafe) {
@@ -93,14 +106,14 @@ public class Server {
                 while((count = jotDownOrder.read(order)) > 0) {
                     return new String(order);
                 }
-            } catch (NullPointerException e) { System.out.println(e.getMessage()); }
-        }catch (IOException e) { System.out.println(e.getMessage()); }
+            } catch (NullPointerException e) { System.out.println("NullPointer in Server.activeListening()"); }
+        }catch (IOException e) { System.out.println("IOException in Server.activeListening()"); }
         return new String(order);
     }
 
     public void close() {
         theDiningRoomIsOpen = false;
         try{ maitreD.close();
-        } catch (IOException e) { e.getMessage(); }
+        } catch (IOException e) { System.out.println("IOException in Server.close()"); }
     }
 }

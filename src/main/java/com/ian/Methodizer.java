@@ -7,7 +7,6 @@ public class Methodizer {
 
     public static byte[] takeOrder(String directoryToReference, String request) {
         directory = directoryToReference;
-        //logger goes here
         //validator goes here
         HashMap<String, String> parsedRequest = Parser.parse(request);
         String method = parsedRequest.get("method");

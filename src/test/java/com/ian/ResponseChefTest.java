@@ -12,7 +12,7 @@ public class ResponseChefTest {
     @Test
     public void craftResponseCallsMenuDuJourIfOrderIsADirectory() {
         String expected = "HTTP/1.1 200 OK" +
-                "\nContent-Length: 411" +
+                "\nContent-Length: 436" +
                 "\nContent-Type: text/html" +
                 "\r\n\r\n" +
                 "<!DOCTYPE html>\n" +
@@ -27,6 +27,7 @@ public class ResponseChefTest {
                 "<a href=\"/image.gif\">image.gif</a>\n" +
                 "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
                 "<a href=\"/image.png\">image.png</a>\n" +
+                "<a href=\"/logs\">logs</a>\n" +
                 "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
                 "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
                 "<a href=\"/text-file.txt\">text-file.txt</a>" +

@@ -1,9 +1,16 @@
 package com.ian;
 
 public class ClientErrorCook {
-    private static String HTTPVersion = "HTTP/1.1 ";
-    private static String notFound = "404 Not Found";
-    private static String teaPot = "418 I'm a teapot.";
+    private static final String HTTPVersion = "HTTP/1.1 ";
+    private static final String badRequest = "400 Bad Request";
+    private static final String unauthorized = "401 Unauthorized";
+    private static final String notFound = "404 Not Found";
+    private static final String teaPot = "418 I'm a teapot.";
+
+    public static byte[] craft400Response() { return addHTTPto(badRequest).getBytes(); }
+
+    public static byte[] craft401Response() { return addHTTPto(unauthorized).getBytes(); }
+
 
     public static byte[] craft404Response() {
         return addHTTPto(notFound).getBytes();

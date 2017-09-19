@@ -18,4 +18,18 @@ public class ClientErrorCookTest {
         byte[] actual = ClientErrorCook.craft418Response();
         assertEquals(new String(expected), new String(actual));
     }
+
+    @Test
+    public void craft400ResponseReturns400response() {
+        byte[] expected = "HTTP/1.1 400 Bad Request".getBytes();
+        byte[] actual = ClientErrorCook.craft400Response();
+        assertEquals(new String(expected), new String(actual));
+    }
+
+    @Test
+    public void craft401ResponseReturns401response() {
+        byte[] expected = "HTTP/1.1 401 Unauthorized".getBytes();
+        byte[] actual = ClientErrorCook.craft401Response();
+        assertEquals(new String(expected), new String(actual));
+    }
 }

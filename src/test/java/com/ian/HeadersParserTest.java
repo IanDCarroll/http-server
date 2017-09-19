@@ -7,6 +7,9 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 
 public class HeadersParserTest {
+    public static final String directory =
+            System.getProperty("user.dir") + "/public";
+
     @Test
     public void parseHeadersParsesABunchOfHeaders() {
         //GIVEN

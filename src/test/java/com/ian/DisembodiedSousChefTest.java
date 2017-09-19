@@ -55,4 +55,21 @@ public class DisembodiedSousChefTest {
         byte[] actual = DisembodiedSousChef.craftResponseHead(directory, request, body);
         assertEquals(new String(expected), new String(actual));
     }
+
+    @Test
+    public void craft400ResponseHeadReturnsA400Response() {
+        byte[] expected = ("HTTP/1.1 400 Bad Request" +
+                "\r\n\r\n").getBytes();
+        byte[] actual = DisembodiedSousChef.craft400Response();
+        assertEquals(new String(expected), new String(actual));
+    }
+
+    @Test
+    public void craft401ResponseHeadReturnsA401Response() {
+        byte[] expected = ("HTTP/1.1 401 Unauthorized" +
+                "\nWWW-Authenticate: Basic" +
+                "\r\n\r\n").getBytes();
+        byte[] actual = DisembodiedSousChef.craft401Response();
+        assertEquals(new String(expected), new String(actual));
+    }
 }

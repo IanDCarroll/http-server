@@ -28,6 +28,7 @@ public class RunTests {
 
     private static void runUnitTests() {
         unit = JUnitCore.runClasses(ServerTest.class,
+                                    ValidatorTest.class,
                                     MethodizerTest.class,
                                     LogKeeperTest.class,
                                     ParserTest.class,

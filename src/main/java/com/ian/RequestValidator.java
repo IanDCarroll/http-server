@@ -34,7 +34,6 @@ public class RequestValidator {
     public static byte[] order206Response(String directory, String url, String unParsedHeaders) {
         HashMap<String, String> headers = HeadersParser.parseHeaders(unParsedHeaders);
         long[] range = RangeHeaderParser.parse(directory, url, headers.get("Range"));
-        System.out.println(new String(Kitchen.sendPartialOrderToChef(directory, url, range[0], range[1])));
         return Kitchen.sendPartialOrderToChef(directory, url, range[0], range[1]);
     }
 }

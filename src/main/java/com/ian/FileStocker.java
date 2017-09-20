@@ -3,6 +3,7 @@ package com.ian;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class FileStocker {
 
@@ -33,6 +34,12 @@ public class FileStocker {
                 outToFile.close();
             } catch (IOException e) { System.out.println( e.getMessage()); }
         } catch (FileNotFoundException e) { System.out.println( e.getMessage()); }
+    }
+
+    public static byte[] pullRange(String directory, String name, long start, long end) {
+        byte[] fullValue = pullBytes(directory, name);
+        int endNonInclusive = (int)end + 1;
+        return Arrays.copyOfRange(fullValue,(int)start, endNonInclusive);
     }
 
     public static byte[] pullBytes(String directory, String name) {

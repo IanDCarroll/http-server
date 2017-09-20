@@ -1,10 +1,11 @@
 package com.ian;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ValidatorTest {
+public class RequestValidatorTest {
     public static final String directory =
             System.getProperty("user.dir") + "/public";
 
@@ -12,7 +13,7 @@ public class ValidatorTest {
     public void validateSendsRequesttoMethodizerIfThereIsNoProblem() {
         String expected = "HTTP/1.1 200 OK";
         String request = "GET / HTTP/1.1";
-        byte[] actual = Validator.validate(directory, request);
+        byte[] actual = RequestValidator.validate(directory, request);
         assertTrue(new String(actual).contains(expected));
     }
 
@@ -20,7 +21,7 @@ public class ValidatorTest {
     public void validateRespondsIfRequestIsNull() {
         String expected = "HTTP/1.1 400 Bad Request";
         String request = "";
-        byte[] actual = Validator.validate(directory, request);
+        byte[] actual = RequestValidator.validate(directory, request);
         assertTrue(new String(actual).contains(expected));
     }
 
@@ -28,24 +29,16 @@ public class ValidatorTest {
     public void validateRequiresAuthForLogs() {
         String expected = "HTTP/1.1 401 Unauthorized";
         String request = "GET /logs HTTP:1.1";
-        byte[] actual = Validator.validate(directory, request);
-        //System.out.println(new String(actual));
+        byte[] actual = RequestValidator.validate(directory, request);
         assertTrue(new String(actual).contains(expected));
     }
 
     @Test
-    public void unauthorizedReturnsTrueForLogs() {
-        String url = "/logs";
-        String unParsedHeaders = "";
-        boolean actual = Validator.unauthorized(url, unParsedHeaders);
-        assertTrue(actual);
+    public void validateReturns416AuthForBadRangeRequests() {
+        String expected = "HTTP/1.1 416 Range Not Satisfiable";
+        String request = "GET /file1 HTTP:1.1" +
+                        "\nRange: bytes=0-15";
+        byte[] actual = RequestValidator.validate(directory, request);
+        assertTrue(new String(actual).contains(expected));
     }
-
-    @Test
-    public void authorizationRequiredReturnsTrueForLogs() {
-        String url = "/logs";
-        boolean actual = Validator.authorizationRequired(url);
-        assertTrue(actual);
-    }
-
 }

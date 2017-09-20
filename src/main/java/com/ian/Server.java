@@ -88,7 +88,7 @@ public class Server {
                     new BufferedOutputStream(garconDeCafe.getOutputStream());
             try {
                 String order = LogKeeper.logRequest(directory, log, activeListening(garconDeCafe));
-                byte[] serverResponse = Validator.validate(directory, order);
+                byte[] serverResponse = RequestValidator.validate(directory, order);
                 senseOfUrgency.write(serverResponse);
                 senseOfUrgency.flush();
             } catch (NullPointerException e) { System.out.println("NullPointer in Server.provide()"); }

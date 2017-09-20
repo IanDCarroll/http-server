@@ -18,6 +18,18 @@ public class HeadersCookTest {
     }
 
     @Test
+    public void craftPartialHeadersReturnsContentRangeAndLength() {
+        String name = "/file1";
+        long start = 2;
+        long end = 13;
+        byte[] body = "le1 content".getBytes();
+        String expected = "\nContent-Range: bytes 2-13/14" +
+                "\nContent-Length: 11";
+        String actual = new String(HeadersCook.craftPartialHeaders(directory, name, body, start, end));
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void craftContentTypeReturnsContentTypeTextPlainAsDefault() {
         String expected = "\nContent-Type: text/plain";
         assertEquals(expected, HeadersCook.craftContentType(directory, "text/plain"));
@@ -28,6 +40,16 @@ public class HeadersCookTest {
         byte [] body = "file1 contents".getBytes();
         String expected = "\nContent-Length: 14";
         assertEquals(expected, HeadersCook.craftContentLength(body));
+    }
+
+    @Test
+    public void craftContentRangeReturnsContentRange() {
+        String name = "/file1";
+        long start = 2;
+        long end = 13;
+        byte [] body = "le1 content".getBytes();
+        String expected = "\nContent-Range: bytes 2-13/14";
+        assertEquals(expected, HeadersCook.craftContentRange(directory, name, start, end));
     }
 
     @Test

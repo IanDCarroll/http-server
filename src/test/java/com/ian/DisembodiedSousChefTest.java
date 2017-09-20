@@ -57,7 +57,21 @@ public class DisembodiedSousChefTest {
     }
 
     @Test
-    public void craft400ResponseHeadReturnsA400Response() {
+    public void craft206ResponseReturnsA206ResponseHead() {
+        String order = "/file1";
+        long start = 2;
+        long end = 13;
+        byte[] body = "le1 content".getBytes();
+        byte[] expected = ("HTTP/1.1 206 Partial Content" +
+                "\nContent-Range: bytes 2-13/14" +
+                "\nContent-Length: 11" +
+                "\r\n\r\n").getBytes();
+        byte[] actual = DisembodiedSousChef.craft206Response(directory, order, body, start, end);
+        assertEquals(new String(expected), new String(actual));
+    }
+
+    @Test
+    public void craft400ResponseReturnsA400Response() {
         byte[] expected = ("HTTP/1.1 400 Bad Request" +
                 "\r\n\r\n").getBytes();
         byte[] actual = DisembodiedSousChef.craft400Response();
@@ -65,11 +79,21 @@ public class DisembodiedSousChefTest {
     }
 
     @Test
-    public void craft401ResponseHeadReturnsA401Response() {
+    public void craft401ResponseReturnsA401Response() {
         byte[] expected = ("HTTP/1.1 401 Unauthorized" +
                 "\nWWW-Authenticate: Basic" +
                 "\r\n\r\n").getBytes();
         byte[] actual = DisembodiedSousChef.craft401Response();
+        assertEquals(new String(expected), new String(actual));
+    }
+
+    @Test
+    public void craft416ResponseReturnsA416Response() {
+        byte[] expected = ("HTTP/1.1 416 Range Not Satisfiable" +
+                "\nContent-Range: */14" +
+                "\r\n\r\n").getBytes();
+        String url = "/file1";
+        byte[] actual = DisembodiedSousChef.craft416Response(directory, url);
         assertEquals(new String(expected), new String(actual));
     }
 }

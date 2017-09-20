@@ -7,4 +7,11 @@ public class ResponseChef {
         byte[][] response = {head, body};
         return ByteArrayCook.concatenateByteArrays(response);
     }
+
+    public static byte[] craftPartialResponse(String directory, String order, long start, long end) {
+        byte[] body = CorpulentSousChef.craftPartialBody(directory, order, start, end);
+        byte[] head = DisembodiedSousChef.craft206Response(directory, order, body, start, end);
+        byte[][] response = {head, body};
+        return ByteArrayCook.concatenateByteArrays(response);
+    }
 }

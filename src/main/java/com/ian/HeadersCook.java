@@ -4,8 +4,13 @@ public class HeadersCook {
     public static byte[] craftStandardHeaders(String directory, String name, byte[] body) {
         String contentLength = craftContentLength(body);
         String contentType = craftContentType(directory, name);
-        String headers = contentLength + contentType;
-        return headers.getBytes();
+        return (contentLength + contentType).getBytes();
+    }
+
+    public static byte[] craftPartialHeaders(String directory, String name, byte[] body, long start, long end) {
+        String contentRange  = craftContentRange(directory, name, start, end);
+        String contentLength = craftContentLength(body);
+        return (contentRange + contentLength).getBytes();
     }
 
     public static String craftContentLength(byte[] body) {
@@ -14,6 +19,13 @@ public class HeadersCook {
 
     public static String craftContentType(String directory, String name) {
         return "\nContent-Type: " + type(directory, name);
+    }
+
+    public static String craftContentRange(String directory, String name, long start, long end) {
+        return "\nContent-Range: bytes " +
+                String.valueOf(start) + "-" +
+                String.valueOf(end) + "/" +
+                String.valueOf(FileStocker.size(directory, name));
     }
 
     public static String craftLocation(String url) {

@@ -7,6 +7,10 @@ public class CorpulentSousChef {
             "It is our deepest regret we could not serve you this thing.").getBytes();
     private static byte[] HTCPCPResponse = "I'm a teapot.".getBytes();
 
+    public static byte[] craftPartialBody(String directory, String request, long start, long end) {
+        return ContentCook.craftPartialContents(directory, request, start, end);
+    }
+
     public static byte[] craftResponseBody(String directory, String request, String[] params) {
         byte[] responseBody;
         if (HTCPCPLister.check(request)) {

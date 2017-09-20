@@ -10,6 +10,10 @@ public class Kitchen {
         return ResponseChef.craftResponse(directory, url, params);
     }
 
+    public static byte[] sendPartialOrderToChef(String directory, String url, long start, long end) {
+        return ResponseChef.craftPartialResponse(directory, url, start, end);
+    }
+
     public static byte[] sendOrderToSousChef(String directory, String url) {
         byte[] emptyBody = "".getBytes();
         return DisembodiedSousChef.craftResponseHead(directory, url, emptyBody);

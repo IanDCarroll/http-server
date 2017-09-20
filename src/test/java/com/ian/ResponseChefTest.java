@@ -1,8 +1,8 @@
 package com.ian;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ResponseChefTest {
@@ -102,5 +102,19 @@ public class ResponseChefTest {
                            "cost=not too expensive"};
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
         assertEquals(true, actual.contains(expected));
+    }
+
+    @Test
+    public void craftPartialResponseReturnsA206Response() {
+        String expected = "HTTP/1.1 206 Partial Content" +
+                "\nContent-Range: bytes 2-12/14" +
+                "\nContent-Length: 11" +
+                "\r\n\r\n" +
+                "le1 content";
+        String order = "/file1";
+        long start = 2;
+        long end = 12;
+        String actual = new String(ResponseChef.craftPartialResponse(directory, order, start, end));
+        assertEquals(expected, actual);
     }
 }

@@ -10,53 +10,70 @@ public class HeadersCookTest {
 
     @Test
     public void craftStandardHeadersReturnsContentLengthAndType() {
-        byte[] body = "file1 contents".getBytes();
+        //GIVEN
         String expected = "\nContent-Length: 14" +
-                           "\nContent-Type: text/plain";
+                "\nContent-Type: text/plain";
+        byte[] body = "file1 contents".getBytes();
+        //WHEN
         String actual = new String(HeadersCook.craftStandardHeaders(directory, "/file1", body));
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void craftPartialHeadersReturnsContentRangeAndLength() {
+        //GIVEN
+        String expected = "\nContent-Range: bytes 2-13/14" +
+                "\nContent-Length: 11";
         String name = "/file1";
         long start = 2;
         long end = 13;
         byte[] body = "le1 content".getBytes();
-        String expected = "\nContent-Range: bytes 2-13/14" +
-                "\nContent-Length: 11";
+        //WHEN
         String actual = new String(HeadersCook.craftPartialHeaders(directory, name, body, start, end));
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void craftContentTypeReturnsContentTypeTextPlainAsDefault() {
         String expected = "\nContent-Type: text/plain";
-        assertEquals(expected, HeadersCook.craftContentType(directory, "text/plain"));
+        String actual = HeadersCook.craftContentType(directory, "text/plain");
+        assertEquals(expected, actual);
     }
 
     @Test
     public void craftContentLengthReturnsContentLength() {
-        byte [] body = "file1 contents".getBytes();
+        //GIVEN
         String expected = "\nContent-Length: 14";
-        assertEquals(expected, HeadersCook.craftContentLength(body));
+        byte [] body = "file1 contents".getBytes();
+        //WHEN
+        String actual = HeadersCook.craftContentLength(body);
+        //THEN
+        assertEquals(expected, actual);
     }
 
     @Test
     public void craftContentRangeReturnsContentRange() {
+        //GIVEN
+        String expected = "\nContent-Range: bytes 2-13/14";
         String name = "/file1";
         long start = 2;
         long end = 13;
-        byte [] body = "le1 content".getBytes();
-        String expected = "\nContent-Range: bytes 2-13/14";
-        assertEquals(expected, HeadersCook.craftContentRange(directory, name, start, end));
+        //WHEN
+        String actual = HeadersCook.craftContentRange(directory, name, start, end);
+        //THEN
+        assertEquals(expected, actual);
     }
 
     @Test
     public void craftLocationReturnsTheURLToRedirect() {
-        String url = "/redirect";
+        //GIVEN
         String expected = "\nLocation: /";
+        String url = "/redirect";
+        //WHEN
         String actual = HeadersCook.craftLocation(url);
+        //THEN
         assertEquals(expected, actual);
     }
 

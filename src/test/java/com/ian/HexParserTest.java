@@ -14,38 +14,56 @@ public class HexParserTest {
 
     @Test
     public void unHexReturnsTheUnHexedCharFromPercentEncoding() {
+        //GIVEN
         String expected = "a";
         String params = "%61";
+        //WHEN
         String actual = HexParser.unHex(params);
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void unHexReturnsTheUnHexedStringFromMixedPercentEncoding() {
+        //GIVEN
         String expected = "NaCl";
         String params = "%4E%61Cl";
+        //WHEN
         String actual = HexParser.unHex(params);
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void unHexCharReturnsTheChar_a_AsStringFromHex() {
+        //GIVEN
         String expected = "a";
         String hex = "61";
-        assertEquals(expected, HexParser.unHexChar(hex));
+        //WHEN
+        String actual = HexParser.unHexChar(hex);
+        //THEN
+        assertEquals(expected, actual);
     }
 
     @Test
     public void unHexCharReturnsTheChar_N_AsStringFromHex() {
+        //GIVEN
         String expected = "N";
         String hex = "4e";
-        assertEquals(expected, HexParser.unHexChar(hex));
+        //WHEN
+        String actual = HexParser.unHexChar(hex);
+        //THEN
+        assertEquals(expected, actual);
     }
 
     @Test
     public void unHexCharIsIndifferentToCapitalization() {
+        //GIVEN
         String expected = "N";
         String hex = "4E";
-        assertEquals(expected, HexParser.unHexChar(hex));
+        //WHEN
+        String actual = HexParser.unHexChar(hex);
+        //THEN
+        assertEquals(expected, actual);
     }
 }

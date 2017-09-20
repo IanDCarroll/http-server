@@ -6,22 +6,28 @@ import static org.junit.Assert.*;
 
 public class ParamsCookTest {
     @Test
-    public void plateParamsReturnsEmptyArrayWhenNoParamsPassed() {
+    public void craftParamsReturnsEmptyArrayWhenNoParamsPassed() {
+        //GIVEN
         byte[] expected = {};
-        String[] given = {};
-        byte[] actual = ParamsCook.craftParams(given);
+        String[] emptyArray = {};
+        //WHEN
+        byte[] actual = ParamsCook.craftParams(emptyArray);
+        //THEN
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void plateParamsTransformsAStringArrayIntoAByteArray() {
+    public void craftParamsTransformsAStringArrayIntoAByteArray() {
+        //GIVEN
         byte[] expected = ("name = Sir Lancelot of Camelot" +
                            "quest = To seek the Holy Grail" +
                            "favorite-color = blue").getBytes();
-        String[] given = {"name = Sir Lancelot of Camelot",
+        String[] stringArray = {"name = Sir Lancelot of Camelot",
                           "quest = To seek the Holy Grail",
                           "favorite-color = blue"};
-        byte[] actual = ParamsCook.craftParams(given);
+        //WHEN
+        byte[] actual = ParamsCook.craftParams(stringArray);
+        //THEN
         assertArrayEquals(expected, actual);
     }
 }

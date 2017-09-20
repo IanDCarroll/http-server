@@ -10,44 +10,56 @@ public class KitchenTest {
 
     @Test
     public void sendOrderToChefGets200ResponseFromChef() {
+        //GIVEN
+        String expected = "HTTP/1.1 200 OK";
         String url = "/";
         String[] parsedParams = {"name=Sir Galahad of Camelot",
                 "quest=To Seek The Holy Grail",
                 "favorite-color=blue. No. Yelloooooow..."};
-        String expected = "HTTP/1.1 200 OK";
+        //WHEN
         byte[] actual = Kitchen.sendOrderToChef(directory, url, parsedParams);
+        //THEN
         assertTrue(new String(actual).contains(expected));
     }
 
     @Test
     public void sendOrderToChefGetsParamsInResponseFromChef() {
+        //GIVEN
+        String expected = "<p>name = Sir Galahad of Camelot</p>\n" +
+                "<p>quest = To Seek The Holy Grail</p>\n" +
+                "<p>favorite-color = blue. No. Yelloooooow...</p>\n";
         String url = "/";
         String[] parsedParams = {"name=Sir Galahad of Camelot",
                            "quest=To Seek The Holy Grail",
                            "favorite-color=blue. No. Yelloooooow..."};
-        String expected = "<p>name = Sir Galahad of Camelot</p>\n" +
-                "<p>quest = To Seek The Holy Grail</p>\n" +
-                "<p>favorite-color = blue. No. Yelloooooow...</p>\n";
+        //WHEN
         byte[] actual = Kitchen.sendOrderToChef(directory, url, parsedParams);
+        //THEN
         assertTrue(new String(actual).contains(expected));
     }
 
     @Test
     public void sendOrderToChefDoesntMindIfNoParamsAreSent() {
-        String url = "/";;
+        //GIVEN
         String expected = "HTTP/1.1 200 OK";
+        String url = "/";
+        //WHEN
         byte[] actual = Kitchen.sendOrderToChef(directory, url);
+        //THEN
         assertTrue(new String(actual).contains(expected));
     }
 
     @Test
     public void sendOrderToSousChefGetsAWellCraftedResponseHead() {
-        String url = "/";
+        //GIVEN
         String expected = "HTTP/1.1 200 OK\n" +
                 "Content-Length: 0\n" +
                 "Content-Type: text/html" +
                 "\r\n\r\n";
+        String url = "/";
+        //WHEN
         byte[] actual = Kitchen.sendOrderToSousChef(directory, url);
+        //THEN
         assertEquals(new String(actual), expected);
     }
 }

@@ -8,42 +8,49 @@ public class HTCPCPListerTest {
     @Test
     public void checkReturnsTrueIfTheStringIsCoffee() {
         String request = "/coffee";
-        assertTrue(HTCPCPLister.check(request));
+        boolean check = HTCPCPLister.check(request);
+        assertTrue(check);
     }
 
     @Test
     public void checkReturnsTrueIfTheStringIsTea() {
         String request = "/tea";
-        assertTrue(HTCPCPLister.check(request));
+        boolean check = HTCPCPLister.check(request);
+        assertTrue(check);
     }
 
     @Test
     public void checkReturnsFalseIfTheStringIsSomethingOtherThanCoffeeOrTea() {
         String request = "/neither-coffee-nor-tea";
-        assertFalse(HTCPCPLister.check(request));
+        boolean check = HTCPCPLister.check(request);
+        assertFalse(check);
     }
 
     @Test
     public void checkCoffeeReturnsTrueIfTheStringIsCoffee() {
         String request = "/coffee";
-        assertTrue(HTCPCPLister.checkCoffee(request));
+        boolean check = HTCPCPLister.checkCoffee(request);
+        assertTrue(check);
     }
 
     @Test
     public void checkCoffeeReturnsFalseIfTheStringIsNotCoffee() {
         String request = "/not-coffee";
-        assertFalse(HTCPCPLister.checkCoffee(request));
+        boolean check = HTCPCPLister.checkCoffee(request);
+        assertFalse(check);
     }
 
     @Test
     public void checkTeaReturnsTrueIfTheStringIsTea() {
         String request = "/tea";
-        assertTrue(HTCPCPLister.checkTea(request));
+        boolean check = HTCPCPLister.checkTea(request);
+        assertTrue(check);
     }
 
     @Test
     public void checkTeaReturnsFalseIfTheStringIsNotTea() {
         String request = "/not-tea";
-        assertFalse(HTCPCPLister.checkTea(request));
+        boolean check = HTCPCPLister.checkTea(request);
+        assertFalse(check);
     }
 }

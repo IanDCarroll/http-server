@@ -11,6 +11,7 @@ public class ResponseChefTest {
 
     @Test
     public void craftResponseCallsMenuDuJourIfOrderIsADirectory() {
+        //GIVEN
         String expected = "HTTP/1.1 200 OK" +
                 "\nContent-Length: 436" +
                 "\nContent-Type: text/html" +
@@ -35,12 +36,15 @@ public class ResponseChefTest {
                 "\n</html>";
         String order = "/";
         String[] params = {};
+        //WHEN
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void craftResponseCallsCookOrderIfOrderIsAFile() {
+        //GIVEN
         String expected = "HTTP/1.1 200 OK" +
                 "\nContent-Length: 14" +
                 "\nContent-Type: text/plain" +
@@ -48,12 +52,15 @@ public class ResponseChefTest {
                 "file1 contents";
         String order = "/file1";
         String[] params = {};
+        //WHEN
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void craftResponseReturns404IfOrderDoesNotExist() {
+        //GIVEN
         String expected = "HTTP/1.1 404 Not Found" +
                 "\nContent-Length: 184" +
                 "\nContent-Type: text/plain" +
@@ -63,12 +70,15 @@ public class ResponseChefTest {
                 "It is our deepest regret we could not serve you this thing.";
         String order = "/the_holy_grail";
         String[] params = {};
+        //WHEN
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        //THEN
         assertEquals( expected, actual);
     }
 
     @Test
     public void craftResponseReturns418IfHTCPCPRequestsCoffee() {
+        //GIVEN
         String expected = "HTTP/1.1 418 I'm a teapot." +
                 "\nContent-Length: 13" +
                 "\nContent-Type: text/plain" +
@@ -76,12 +86,15 @@ public class ResponseChefTest {
                 "I'm a teapot.";
         String order = "/coffee";
         String[] params = {};
+        //WHEN
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        //THEN
         assertEquals( expected, actual);
     }
 
     @Test
     public void craftResponseReturns200IfHTCPCPRequestsTea() {
+        //GIVEN
         String expected = "HTTP/1.1 200 OK\n" +
                 "Content-Length: 13\n" +
                 "Content-Type: text/plain" +
@@ -89,23 +102,29 @@ public class ResponseChefTest {
                 "I'm a teapot.";
         String order = "/tea";
         String[] params = {};
+        //WHEN
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void craftResponseReturns200WithParamsIfOrderIsDirectory() {
+        //GIVEN
         String expected = "<p>looks = nice</p>\n" +
                 "<p>cost = not too expensive</p>";
         String order = "/";
         String[] params = {"looks=nice",
                            "cost=not too expensive"};
+        //WHEN
         String actual = new String(ResponseChef.craftResponse(directory, order, params));
+        //THEN
         assertEquals(true, actual.contains(expected));
     }
 
     @Test
     public void craftPartialResponseReturnsA206Response() {
+        //GIVEN
         String expected = "HTTP/1.1 206 Partial Content" +
                 "\nContent-Range: bytes 2-12/14" +
                 "\nContent-Length: 11" +
@@ -114,7 +133,9 @@ public class ResponseChefTest {
         String order = "/file1";
         long start = 2;
         long end = 12;
+        //WHEN
         String actual = new String(ResponseChef.craftPartialResponse(directory, order, start, end));
+        //THEN
         assertEquals(expected, actual);
     }
 }

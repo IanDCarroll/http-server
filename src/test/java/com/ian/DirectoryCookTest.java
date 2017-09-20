@@ -10,8 +10,6 @@ public class DirectoryCookTest {
 
     @Test
     public void craftResponseBodyReturnsTheDirectoryContents() {
-        String request = "/";
-        String[] params = {};
         byte[] expected =
                 ("<!DOCTYPE html>\n" +
                         "<html>\n" +
@@ -31,14 +29,15 @@ public class DirectoryCookTest {
                         "<a href=\"/text-file.txt\">text-file.txt</a>" +
                         "\n</body>" +
                         "\n</html>").getBytes();
+        String request = "/";
+        String[] params = {};
         byte[] actual = DirectoryCook.craftResponseLinks(directory, request, params);
         assertEquals(new String(expected), new String(actual));
     }
 
     @Test
     public void craftResponseBodyReturnsTheDirectoryContentsWithParams() {
-        String request = "/";
-        String[] params = { "data=fatcat", "data=heathcliff" };
+        //GIVEN
         byte[] expected =
                 ("<!DOCTYPE html>\n" +
                         "<html>\n" +
@@ -60,7 +59,11 @@ public class DirectoryCookTest {
                         "<p>data = heathcliff</p>" +
                         "\n</body>" +
                         "\n</html>").getBytes();
+        String request = "/";
+        String[] params = { "data=fatcat", "data=heathcliff" };
+        //WHEN
         byte[] actual = DirectoryCook.craftResponseLinks(directory, request, params);
+        //THEN
         assertEquals(new String(expected), new String(actual));
     }
 }

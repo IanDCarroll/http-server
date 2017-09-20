@@ -9,31 +9,32 @@ public class RedirectListerTest {
     @Test
     public void checkRedirectReturnsTrueIfURLIsToBeRedirected() {
         String url = "/redirect";
-        boolean expected = true;
-        boolean actual = RedirectLister.checkRedirect(url);
-        assertEquals(expected, actual);
+        boolean check = RedirectLister.checkRedirect(url);
+        assertTrue(check);
     }
 
     @Test
     public void checkRedirectReturnsFalseIfURLIsNotToBeRedirected() {
         String url = "/do-not-redirect";
-        boolean expected = false;
-        boolean actual = RedirectLister.checkRedirect(url);
-        assertEquals(expected, actual);
+        boolean check = RedirectLister.checkRedirect(url);
+        assertFalse(check);
     }
 
     @Test
     public void getRedirectionUrlReturnsTheTemporaryUrl() {
-        String url = "/redirect";
+        //GIVEN
         String expected = "/";
+        String url = "/redirect";
+        //WHEN
         String actual = RedirectLister.getRedirectionUrl(url);
+        //THEN
         assertEquals(expected, actual);
     }
 
     @Test
     public void getRedirectionUrlReturnsTheUrlIfNotFound() {
-        String url = "/not-in-redirect-list";
-        String actual = RedirectLister.getRedirectionUrl(url);
-        assertEquals(url, actual);
+        String expectedUrl = "/not-in-redirect-list";
+        String actual = RedirectLister.getRedirectionUrl(expectedUrl);
+        assertEquals(expectedUrl, actual);
     }
 }

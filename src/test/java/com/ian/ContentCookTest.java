@@ -1,7 +1,6 @@
 package com.ian;
 
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 public class ContentCookTest {
@@ -10,9 +9,12 @@ public class ContentCookTest {
 
     @Test
     public void craftContentsReturnsTheBodyFoundInAFile() {
-        String request = "/file2";
+        //GIVEN
         byte[] expected = "file2 contents\n".getBytes();
+        String request = "/file2";
+        //WHEN
         byte[] actual = ContentCook.craftContents(directory, request);
+        //THEN
         assertEquals(new String(expected), new String(actual));
     }
 }

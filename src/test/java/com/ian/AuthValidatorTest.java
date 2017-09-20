@@ -7,9 +7,12 @@ import static org.junit.Assert.*;
 public class AuthValidatorTest {
     @Test
     public void unauthorizedReturnsTrueForLogs() {
+        //GIVEN
         String url = "/logs";
         String unParsedHeaders = "";
+        //WHEN
         boolean actual = AuthValidator.unauthorized(url, unParsedHeaders);
+        //THEN
         assertTrue(actual);
     }
 

@@ -12,14 +12,14 @@ public class FileStockerTest {
     @Test
     public void deleteBytesSetsAFileToZeroBytes() {
         //GIVEN
-        String fileName = "/the-salmon-mousse";
         byte[] expected = "".getBytes();
+        String fileName = "/the-salmon-mousse";
         byte[] content = "this is content".getBytes();
         FileHelper.setFileBytes(directory, fileName, content);
         //WHEN
         FileStocker.deleteBytes(directory, fileName);
-        byte[] actual = FileHelper.getFileBytes(directory, fileName);
         //THEN
+        byte[] actual = FileHelper.getFileBytes(directory, fileName);
         FileHelper.ensureDeletion(directory, fileName);
         assertEquals(new String(expected), new String(actual));
     }
@@ -70,10 +70,13 @@ public class FileStockerTest {
 
     @Test
     public void pullRangeReturnsAByteArrayOfTheRangeFromFileContents() {
+        //GIVEN
+        byte[] expected = "le1 content".getBytes();
         long start = 2;
         long end = 12;
-        byte[] expected = "le1 content".getBytes();
+        //WHEN
         byte[] actual = FileStocker.pullRange(directory, "/file1", start, end);
+        //THEN
         assertArrayEquals(expected, actual);
     }
 

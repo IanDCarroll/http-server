@@ -11,11 +11,11 @@ public class MethodTest {
     @Test
     public void headReturnsOnlyTheHeadOfARequest() {
         //GIVEN
-        String url = "/";
         String expected = "HTTP/1.1 200 OK" +
                 "\nContent-Length: 0" +
                 "\nContent-Type: text/html" +
                 "\r\n\r\n";
+        String url = "/";
         //WHEN
         String actual = new String(Method.head(directory, url));
         //THEN
@@ -25,8 +25,8 @@ public class MethodTest {
     @Test
     public void deleteDeletesTheFilesOfDELETERequest() {
         //GIVEN
+        byte[] expectedEmptiness = "".getBytes();
         String url = "/heart-sutra";
-        byte[] emptiness = "".getBytes();
         byte[] substance = "Substance !!= Emptiness; Emptiness !!= Substance.".getBytes();
         FileHelper.setFileBytes(directory, url, substance);
         //WHEN
@@ -34,16 +34,16 @@ public class MethodTest {
         //THEN
         byte[] fileSubstance = FileHelper.getFileBytes(directory, url);
         FileHelper.ensureDeletion(directory, url);
-        assertArrayEquals(emptiness, fileSubstance);
+        assertArrayEquals(expectedEmptiness, fileSubstance);
     }
 
     @Test
     public void deleteReturns200onSuccessfulDELETERequest() {
         //GIVEN
-        String url = "/here-and-gone-again";
-        byte[] content = {0};
-        FileHelper.setFileBytes(directory, url, content);
         String expectedString = "HTTP/1.1 200 OK";
+        String url = "/here-and-gone-again";
+        byte[] content = {};
+        FileHelper.setFileBytes(directory, url, content);
         //WHEN
         String actualString = new String(Method.delete(directory, url));
         //THEN
@@ -54,9 +54,9 @@ public class MethodTest {
     @Test
     public void getReturnsTheResultsOfGETRequest() {
         //GIVEN
+        String expected = "HTTP/1.1 404 Not Found";
         String url = "/the-lost-city-of-atlantis";
         String[] emptyParams = {};
-        String expected = "HTTP/1.1 404 Not Found";
         //WHEN
         String actual = new String(Method.get(directory, url, emptyParams));
         //THEN
@@ -66,12 +66,12 @@ public class MethodTest {
     @Test
     public void postReturns200onSuccessfulPOSTRequestWhenFileExists() {
         //GIVEN
+        String expectedString = "HTTP/1.1 200 OK";
         String url = "/basho";
-        byte[] content = {0};
+        byte[] content = {};
         FileHelper.setFileBytes(directory, url, content);
         String emptyBody = "";
         String[] emptyParams = {};
-        String expectedString = "HTTP/1.1 200 OK";
         //WHEN
         String actualString = new String(Method.post(directory, url, emptyBody, emptyParams));
         //THEN
@@ -82,11 +82,11 @@ public class MethodTest {
     @Test
     public void postAppendsRequestBodyToExistingFilesOnSuccess() {
         //GIVEN
-        String url = "/basho";
         String originalContent = "no sign to tell\n";
         String bodyContent = "in the cicada's cry\n";
         String[] paramContent = {"how it will soon die."};
         String expected = originalContent + bodyContent + String.join("", paramContent);
+        String url = "/basho";
         FileHelper.setFileBytes(directory, url, originalContent.getBytes());
         //WHEN
         Method.post(directory, url, bodyContent, paramContent);
@@ -99,12 +99,12 @@ public class MethodTest {
     @Test
     public void postDoesNotCreateFilesThatDontExist() {
         //GIVEN
+        Boolean expected = false;
         String url = "/basho";
         String replacementContent = "Ah, tranquility!\n" +
                 "Penetrating the very rock,\n" +
                 "A cicada’s voice.";
         String[] emptyParams = {};
-        Boolean expected = false;
         //WHEN
         Method.post(directory, url, replacementContent, emptyParams);
         //THEN
@@ -116,12 +116,12 @@ public class MethodTest {
     @Test
     public void putCreatesFilesThatDontYetExist() {
         //GIVEN
+        Boolean expected = true;
         String url = "/basho";
         String replacementContent = "Ah, tranquility!\n" +
                 "Penetrating the very rock,\n" +
                 "A cicada’s voice.";
         String[] emptyParams = {};
-        Boolean expected = true;
         //WHEN
         Method.put(directory, url, replacementContent, emptyParams);
         //THEN
@@ -133,16 +133,16 @@ public class MethodTest {
     @Test
     public void putOverwritesExistingFilesOnSuccessfulPUTRequest() {
         //GIVEN
-        String url = "/basho";
         String replacementContent = "Ah, tranquility!\n" +
                 "Penetrating the very rock,\n" +
                 "A cicada’s voice.";
+        String expected = String.join("", replacementContent);
+        String url = "/basho";
         byte[] preExistingContent = ("sick on this journey,\n" +
                 "my dreams keep flying over\n" +
                 "the desolate field.").getBytes();
         String[] emptyParams = {};
         FileHelper.setFileBytes(directory, url, preExistingContent);
-        String expected = String.join("", replacementContent);
         //WHEN
         Method.put(directory, url, replacementContent, emptyParams);
         //THEN
@@ -154,10 +154,10 @@ public class MethodTest {
     @Test
     public void putReturns200onSuccessfulPUTRequest() {
         //GIVEN
+        String expectedString = "HTTP/1.1 200 OK";
         String url = "/basho";
         String emptyBody = "";
         String[] emptyParams = {};
-        String expectedString = "HTTP/1.1 200 OK";
         //WHEN
         String actualString = new String(Method.put(directory, url, emptyBody, emptyParams));
         //THEN

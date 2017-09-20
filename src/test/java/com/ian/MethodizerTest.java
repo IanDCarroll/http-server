@@ -44,8 +44,8 @@ public class MethodizerTest {
     @Test
     public void takeOrderHandlesNullRequests() {
         //GIVEN
-        String request = null;
         byte[] expected = null;
+        String request = null;
         //WHEN
          byte[] actual = Methodizer.takeOrder(directory, request);
         //THEN
@@ -55,7 +55,7 @@ public class MethodizerTest {
     @Test
     public void takeOrderDoesNotReturn0ContentLengthInPOSTResponse() {
         //GIVEN
-        String badValue = "Content-Length: 0";
+        String notExpected = "Content-Length: 0";
         String url = "/basho";
         String request = "POST " + url + "?Poverty's%20child%20-%0A" +
                 "he%20starts%20to%20grind%20rice,%0A" +
@@ -65,13 +65,13 @@ public class MethodizerTest {
         String response = new String(Methodizer.takeOrder(directory, request));
         //THEN
         FileHelper.ensureDeletion(directory, url);
-        assertFalse(response.contains(badValue));
+        assertFalse(response.contains(notExpected));
     }
 
     @Test
     public void takeOrderDoesNotReturn0ContentLengthInPUTResponse() {
         //GIVEN
-        String badValue = "Content-Length: 0";
+        String notExpected = "Content-Length: 0";
         String url = "/basho";
         String request = "PUT " + url + "?Poverty's%20child%20-%0A" +
                 "he%20starts%20to%20grind%20rice,%0A" +
@@ -80,18 +80,19 @@ public class MethodizerTest {
         String response = new String(Methodizer.takeOrder(directory, request));
         //THEN
         FileHelper.ensureDeletion(directory, url);
-        assertFalse(response.contains(badValue));
+        assertFalse(response.contains(notExpected));
     }
 
     @Test
-    public void get_post_get_put_get_delete_get() {
+    public void takeOrderPerformsTheCobSpecTestForGetPostGetPutGetDeleteGet() {
         //GIVEN
-        String fileName = "/form";
         String status = "HTTP/1.1 200 OK";
-        String paramDelimiter = "?";
         String content1 = "data=fatcat";
         String content2 = "data=heathcliff";
+
+        String fileName = "/form";
         String requestBase =  " HTTP/1.1\r\n\r\n";
+        String paramDelimiter = "?";
         String deleteRequest = "DELETE " + fileName + requestBase;
         String getRequest = "GET " + fileName + requestBase;
         String postRequest = "POST " + fileName + paramDelimiter + content1 + requestBase;

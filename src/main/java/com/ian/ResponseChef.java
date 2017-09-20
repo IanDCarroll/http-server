@@ -1,6 +1,11 @@
 package com.ian;
 
 public class ResponseChef {
+    public static byte[] craftResponse(String directory, String order) {
+        String[] withEmptyParams = new String[0];
+        return craftResponse(directory, order, withEmptyParams);
+    }
+
     public static byte[] craftResponse(String directory, String order, String[] params) {
         byte[] body = CorpulentSousChef.craftResponseBody(directory, order, params);
         byte[] head = DisembodiedSousChef.craftResponseHead(directory, order, body);

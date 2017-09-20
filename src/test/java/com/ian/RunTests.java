@@ -43,7 +43,6 @@ public class RunTests {
                                     AssignmentParserTest.class,
                                     ParamsBodyJoinerTest.class,
                                     MethodTest.class,
-                                    KitchenTest.class,
                                     ResponseChefTest.class,
                                     DisembodiedSousChefTest.class,
                                     CorpulentSousChefTest.class,

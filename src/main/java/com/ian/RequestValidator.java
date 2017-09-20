@@ -5,16 +5,21 @@ import java.util.HashMap;
 public class RequestValidator {
     public static byte[] validate(String directory, String request) {
         HashMap<String, String> parsed = Parser.parse(request);
-        if (badRequest(parsed.get("method"), parsed.get("url"), parsed.get("httpVersion"))) {
+        String method = parsed.get("method");
+        String url = parsed.get("url");
+        String httpV = parsed.get("httpVersion");
+        String urlParams = parsed.get("urlParams");
+        String allHeaders = parsed.get("headers");
+        if (badRequest(method, url, httpV)) {
             return DisembodiedSousChef.craft400Response();
-        } else if (notFound(directory, parsed.get("url"))) {
-            return order404Response(directory, parsed.get("url"), parsed.get("urlParams"));
-        } else if (AuthValidator.unauthorized(parsed.get("url"), parsed.get("headers"))) {
+        } else if (notFound(directory, url)) {
+            return order404Response(directory, url, urlParams);
+        } else if (AuthValidator.unauthorized(url, allHeaders)) {
             return DisembodiedSousChef.craft401Response();
-        } else if (RangeValidator.notInRange(directory, parsed.get("url"), parsed.get("headers"))) {
-            return DisembodiedSousChef.craft416Response(directory, parsed.get("url"));
-        } else if (RangeValidator.itIsARangeRequest(parsed.get("headers"))) {
-            return order206Response(directory, parsed.get("url"), parsed.get("headers"));
+        } else if (RangeValidator.notInRange(directory, url, allHeaders)) {
+            return DisembodiedSousChef.craft416Response(directory, url);
+        } else if (RangeValidator.itIsARangeRequest(allHeaders)) {
+            return order206Response(directory, url, allHeaders);
         }
         return Methodizer.takeOrder(directory, request);
     }
@@ -28,12 +33,13 @@ public class RequestValidator {
     }
 
     public static byte[] order404Response(String directory, String url, String params) {
-        return Kitchen.sendOrderToChef(directory, url, ParamsParser.parseParams(params));
+        return ResponseChef.craftResponse(directory, url, ParamsParser.parseParams(params));
     }
 
     public static byte[] order206Response(String directory, String url, String unParsedHeaders) {
         HashMap<String, String> headers = HeadersParser.parseHeaders(unParsedHeaders);
-        long[] range = RangeHeaderParser.parse(directory, url, headers.get("Range"));
-        return Kitchen.sendPartialOrderToChef(directory, url, range[0], range[1]);
+        String rangeValues = headers.get("Range");
+        long[] range = RangeHeaderParser.parse(directory, url, rangeValues);
+        return ResponseChef.craftPartialResponse(directory, url, range[0], range[1]);
     }
 }

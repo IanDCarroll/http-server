@@ -22,16 +22,16 @@ public class MethodizerTest {
                         "<title></title>\n" +
                         "</head>\n" +
                         "<body>\n" +
-                        "<a href=\"/file1\">file1</a>\n" +
-                        "<a href=\"/file2\">file2</a>\n" +
                         "<a href=\"/form\">form</a>\n" +
-                        "<a href=\"/image.gif\">image.gif</a>\n" +
-                        "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
-                        "<a href=\"/image.png\">image.png</a>\n" +
-                        "<a href=\"/logs\">logs</a>\n" +
-                        "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
+                        "<a href=\"/text-file.txt\">text-file.txt</a>\n" +
+                        "<a href=\"/file2\">file2</a>\n" +
                         "<a href=\"/patch-content.txt\">patch-content.txt</a>\n" +
-                        "<a href=\"/text-file.txt\">text-file.txt</a>" +
+                        "<a href=\"/image.gif\">image.gif</a>\n" +
+                        "<a href=\"/logs\">logs</a>\n" +
+                        "<a href=\"/image.jpeg\">image.jpeg</a>\n" +
+                        "<a href=\"/file1\">file1</a>\n" +
+                        "<a href=\"/partial_content.txt\">partial_content.txt</a>\n" +
+                        "<a href=\"/image.png\">image.png</a>" +
                         "\n</body>" +
                         "\n</html>";
         String request = "GET / HTTP/1.1";
